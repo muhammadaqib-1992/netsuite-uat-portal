@@ -1,0 +1,26 @@
+# Dependencies and builds
+node_modules/
+app/dist/
+# React build output copied into the SDF File Cabinet at build time
+sdf/src/FileCabinet/SuiteScripts/uat-portal/app/
+
+# SuiteCloud per-user auth and local settings
+sdf/project.json
+.sdfcli.json
+*.p12
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Data: only the committed dummy samples are allowed
+sample-data/*
+!sample-data/README.md
+!sample-data/sample-*.xlsx
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
