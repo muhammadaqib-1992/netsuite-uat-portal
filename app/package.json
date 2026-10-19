@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit",
     "samples": "node scripts/make-samples.mjs",
     "test:excel": "esbuild scripts/roundtrip-test.ts --bundle --platform=node --log-level=warning --outfile=node_modules/.cache/rt.cjs && node node_modules/.cache/rt.cjs",
-    "serve:build": "node scripts/serve-build.mjs"
+    "serve:build": "node scripts/serve-build.mjs",
+    "build:demo": "tsc --noEmit && vite build --mode demo",
+    "demo": "npm run build:demo && vite preview --mode demo --port 4174 --strictPort"
   },
   "dependencies": {
     "react": "18.3.1",

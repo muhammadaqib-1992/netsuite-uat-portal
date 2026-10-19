@@ -131,11 +131,11 @@ declare global {
   }
 }
 
-/** The RESTlet client inside NetSuite; an in-memory mock when running `npm run dev`. */
+/** The RESTlet client inside NetSuite; an in-memory mock in `npm run dev` and the demo build. */
 export async function createApi(): Promise<Api> {
   const config = window.__UAT_CONFIG__;
-  if (config?.apiUrl) return restletApi(config.apiUrl);
-  if (import.meta.env.DEV) {
+  if (config?.apiUrl && !__DEMO__) return restletApi(config.apiUrl);
+  if (import.meta.env.DEV || __DEMO__) {
     const { mockApi } = await import('./mock');
     return mockApi();
   }

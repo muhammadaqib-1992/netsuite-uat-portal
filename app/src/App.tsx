@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createApi, type Api } from './api/api';
-import type { Bootstrap, CaseDetail, CaseSummary, Cycle } from './types';
+import type { Bootstrap, CaseDetail, CaseSummary, Cycle, Level } from './types';
 import { buildExport, downloadWorkbook, exportFileName } from './lib/excel';
 import { CaseFilters, CaseTable, applyFilters, emptyFilters, type Filters } from './components/CaseList';
 import { CaseDetail as CaseDetailView } from './components/CaseDetail';
@@ -21,7 +21,34 @@ function writeHash(cycle: number | null, caseId: number | null) {
   const p = new URLSearchParams();
   if (cycle) p.set('cycle', String(cycle));
   if (caseId) p.set('case', String(caseId));
-  history.replaceState(null, '', `#${p}`);
+  try {
+    history.replaceState(null, '', `#${p}`);
+  } catch {
+    /* some embedded frames refuse history changes; the link just won't deep-link */
+  }
+}
+
+const SHOW_DEMO_BAR = import.meta.env.DEV || __DEMO__;
+const LEVEL_LABEL: Record<Level, string> = { team: 'Implementation team', lead: 'UAT lead', tester: 'Tester' };
+
+function DemoBar({ level, onChange }: { level: Level; onChange: (l: Level) => void }) {
+  return (
+    <div className="demo-bar" role="note">
+      <span>
+        <b>Demo</b> · Sample data only. Changes are kept until you reload the page.
+      </span>
+      <label>
+        View as
+        <select value={level} onChange={(e) => onChange(e.target.value as Level)} aria-label="View the demo as">
+          {(Object.keys(LEVEL_LABEL) as Level[]).map((l) => (
+            <option key={l} value={l}>
+              {LEVEL_LABEL[l]}
+            </option>
+          ))}
+        </select>
+      </label>
+    </div>
+  );
 }
 
 const SUMMARY_KEYS: (keyof CaseSummary)[] = [
@@ -47,12 +74,22 @@ export function App() {
     })();
   }, []);
 
+  async function viewAs(level: Level) {
+    if (!SHOW_DEMO_BAR || !api) return;
+    const { setMockLevel } = await import('./api/mock');
+    setMockLevel(level);
+    setBoot(await api.bootstrap());
+  }
+
   if (fatal) return <div className="fatal"><h1>UAT Portal</h1><p className="error">{fatal}</p></div>;
   if (!api || !boot) return <div className="fatal"><Spinner label="Loading UAT Portal…" /></div>;
   return (
     <ApiContext.Provider value={api}>
       <BootContext.Provider value={boot}>
-        <Portal api={api} boot={boot} />
+        <div className="app">
+          {SHOW_DEMO_BAR && <DemoBar level={boot.user.level} onChange={viewAs} />}
+          <Portal key={boot.user.id} api={api} boot={boot} />
+        </div>
       </BootContext.Provider>
     </ApiContext.Provider>
   );
@@ -123,7 +160,12 @@ function Portal({ api, boot }: { api: Api; boot: Bootstrap }) {
       const comments = await api.exportComments(cycle.id);
       const original = full.hasWorkbook ? await api.workbook(cycle.id) : null;
       setExporting('Writing workbook…');
-      downloadWorkbook(buildExport(full, all, comments, original?.base64 ?? null), exportFileName(full));
+      const wb = buildExport(full, all, comments, original?.base64 ?? null);
+      if (__DEMO__) {
+        toast(`Built the export: ${all.length} cases and ${comments.length} comments in the workbook's own layout. Downloads are turned off on this demo page.`);
+        return;
+      }
+      downloadWorkbook(wb, exportFileName(full));
       toast(`Exported ${all.length} cases`);
     } catch (e) {
       toast(`Export failed: ${errorText(e)}`, 'error');
@@ -133,7 +175,7 @@ function Portal({ api, boot }: { api: Api; boot: Bootstrap }) {
   }
 
   return (
-    <div className="app">
+    <div className="portal">
       <header className="topbar">
         <div className="topbar-row">
           <div className="brand">

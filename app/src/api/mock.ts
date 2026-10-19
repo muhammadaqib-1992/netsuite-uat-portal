@@ -1,19 +1,30 @@
-// In-memory stand-in for the RESTlet, used only by `npm run dev`. Mirrors the RESTlet's rules
-// (conflict check, Fail/Blocked reason, one reply level, 15-minute edits, feature switches).
-// Open http://localhost:5173/?level=tester (or lead) to see the app as another access level.
+// In-memory stand-in for the RESTlet, used by `npm run dev` and the demo build. Mirrors the RESTlet's
+// rules (conflict check, Fail/Blocked reason, one reply level, 15-minute edits, feature switches).
+// In dev, open http://localhost:5173/?level=tester (or lead) to see the app as another access level.
 import { ApiError, type Api } from './api';
-import type { CaseDetail, CaseStatus, Comment, Cycle, FileData, Level, MappingTemplate, User } from '../types';
+import type { CaseDetail, CaseStatus, Comment, Cycle, FileData, Level, Mapping, MappingTemplate, User } from '../types';
+import { DEMO_CYCLES, DEMO_USER, PEOPLE, type DemoComment } from './demo-data';
 
 const STATUSES: CaseStatus[] = ['Not Started', 'In Progress', 'Pass', 'Fail', 'Blocked', 'N/A'];
 const EDIT_WINDOW_MS = 15 * 60 * 1000;
+const HOUR = 3600 * 1000;
 
-const level = (new URLSearchParams(location.search).get('level') as Level) || 'team';
-const user: User = { id: 7, name: level === 'team' ? 'Dev Consultant' : 'Dev Tester', email: 'dev@example.com', roleId: 'mock', level };
-const other = { id: 9, name: 'Sample Lead' };
+function userFor(level: Level): User {
+  const p = PEOPLE[DEMO_USER[level]];
+  return { id: p.id, name: p.name, email: 'demo@example.com', roleId: `demo_${level}`, level };
+}
+
+let user: User = userFor((new URLSearchParams(location.search).get('level') as Level) || 'team');
+
+/** Switches who the mock is signed in as. Data is kept. */
+export function setMockLevel(level: Level) {
+  user = userFor(level);
+}
 
 let nextId = 1000;
 const id = () => ++nextId;
-const now = () => new Date().toLocaleString();
+const fmt = (ms: number) => new Date(ms).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+const now = () => fmt(Date.now());
 const delay = <T>(v: T): Promise<T> => new Promise((r) => setTimeout(() => r(structuredClone(v)), 120));
 
 const cycles: Cycle[] = [];
@@ -23,70 +34,53 @@ const files = new Map<number, FileData>();
 const workbooks = new Map<number, number>();
 let templates: MappingTemplate[] = [];
 
+const HEADERS = ['Case ID', 'Module', 'Scenario', 'Pre-conditions', 'Test Data', 'Steps', 'Expected Result', 'Tester', 'Status', 'Actual Result', 'Defect ID'];
+const FIELDS: Mapping['fields'] = {
+  ref: 'Case ID', module: 'Module', scenario: 'Scenario', precond: 'Pre-conditions', testData: 'Test Data', steps: 'Steps',
+  expected: 'Expected Result', assigned: 'Tester', status: 'Status', actual: 'Actual Result', defect: 'Defect ID',
+};
+
 function seed() {
-  const c: Cycle = {
-    id: id(),
-    name: 'Demo cycle — order to cash',
-    env: 'Sandbox',
-    start: '2026-11-02',
-    end: '2026-11-13',
-    status: 'Active',
-    ownerId: other.id,
-    ownerName: other.name,
-    sourceFile: 'sample-order-to-cash.xlsx',
-    hasWorkbook: false,
-    screenshots: true,
-    email: false,
-    mapping: {
-      sheetName: 'Test Cases',
-      headerRow: 0,
-      headers: ['Case ID', 'Module', 'Scenario', 'Steps', 'Expected Result', 'Tester', 'Status', 'Actual Result'],
-      fields: { ref: 'Case ID', module: 'Module', scenario: 'Scenario', steps: 'Steps', expected: 'Expected Result', assigned: 'Tester', status: 'Status', actual: 'Actual Result' },
-    },
-  };
-  cycles.push(c);
-  const rows: [string, string, CaseStatus][] = [
-    ['Sales Order', 'Create a sales order for a standard item', 'Pass'],
-    ['Sales Order', 'Apply a line discount above the approval limit', 'Fail'],
-    ['Fulfilment', 'Pick, pack and ship a sales order', 'In Progress'],
-    ['Fulfilment', 'Partial fulfilment with back-order', 'Not Started'],
-    ['Invoicing', 'Bill a fulfilled sales order', 'Not Started'],
-    ['Invoicing', 'Invoice email uses the correct template', 'Blocked'],
-    ['Payments', 'Apply a customer payment to an invoice', 'Not Started'],
-    ['Payments', 'Customer deposit applied on invoice', 'N/A'],
-  ];
-  rows.forEach(([module, scenario, status], i) => {
-    const ref = `O2C-${String(i + 1).padStart(3, '0')}`;
-    const steps = '1. Navigate to Transactions > Sales > Enter Sales Orders\n2. Select the customer\n3. Add an item line and save';
-    cases.push({
-      id: id(),
-      cycleId: c.id,
-      ref,
-      rowNum: i + 1,
-      module,
-      scenario,
-      assigned: i % 2 ? 'Tester B' : 'Tester A',
-      status,
-      testerId: status === 'Not Started' ? null : other.id,
-      testerName: status === 'Not Started' ? '' : other.name,
-      executedOn: status === 'Not Started' ? '' : now(),
-      defect: status === 'Fail' ? 'DEF-12' : '',
-      version: 1,
-      precond: 'Customer and item records exist.',
-      testData: 'Customer: Sample Customer 01\nItem: Sample Item A',
-      steps,
-      expected: 'The record saves and shows the expected totals.',
-      actual: status === 'Fail' ? 'Discount saved without approval.' : status === 'Blocked' ? 'Template not deployed yet.' : '',
-      evidenceId: null,
-      evidenceName: '',
-      row: { 'Case ID': ref, Module: module, Scenario: scenario, Steps: steps, 'Expected Result': 'The record saves and shows the expected totals.', Tester: i % 2 ? 'Tester B' : 'Tester A', Status: '', 'Actual Result': '' },
+  const t = Date.now();
+  for (const dc of DEMO_CYCLES) {
+    const owner = PEOPLE[dc.owner];
+    const cycle: Cycle = {
+      id: id(), name: dc.name, env: dc.env, start: dc.start, end: dc.end, status: dc.status,
+      ownerId: owner.id, ownerName: owner.name, sourceFile: dc.sourceFile, hasWorkbook: false,
+      screenshots: true, email: true, mapping: { sheetName: dc.sheetName, headerRow: 0, headers: HEADERS, fields: FIELDS },
+    };
+    cycles.push(cycle);
+    dc.cases.forEach((d, i) => {
+      const tester = d.ran !== undefined ? PEOPLE[d.assigned] : null;
+      const steps = d.steps.map((s, n) => `${n + 1}. ${s}`).join('\n');
+      const c: CaseDetail = {
+        id: id(), cycleId: cycle.id, ref: d.ref, rowNum: i + 1, module: d.module, scenario: d.scenario,
+        assigned: PEOPLE[d.assigned].name, status: d.status, testerId: tester?.id ?? null, testerName: tester?.name ?? '',
+        executedOn: d.ran !== undefined ? fmt(t - d.ran * HOUR) : '', defect: d.defect ?? '', version: 1,
+        precond: d.precond, testData: d.testData, steps, expected: d.expected, actual: d.actual ?? '',
+        evidenceId: null, evidenceName: '',
+        row: {
+          'Case ID': d.ref, Module: d.module, Scenario: d.scenario, 'Pre-conditions': d.precond, 'Test Data': d.testData,
+          Steps: steps, 'Expected Result': d.expected, Tester: PEOPLE[d.assigned].name, Status: '', 'Actual Result': '', 'Defect ID': '',
+        },
+      };
+      cases.push(c);
+      const add = (dm: DemoComment, parentId: number | null) => {
+        const p = PEOPLE[dm.by];
+        const postedMs = t - dm.ago * HOUR;
+        const cid = id();
+        comments.push({
+          ...blankComment(c.id), id: cid, parentId, type: dm.type ?? 'General', text: dm.text, authorId: p.id, authorName: p.name,
+          byTeam: p.team, postedOn: fmt(postedMs), postedMs, statusAtTime: d.status,
+        });
+        return cid;
+      };
+      for (const dm of d.comments ?? []) {
+        const root = add(dm, null);
+        for (const r of dm.replies ?? []) add(r, root);
+      }
     });
-  });
-  const failCase = cases[1];
-  const root = { ...blankComment(failCase.id), id: id(), text: 'Discount above the limit saved without going to approval.', type: 'Fail Reason' as const, authorId: other.id, authorName: other.name, statusAtTime: 'Fail' };
-  comments.push(root);
-  comments.push({ ...blankComment(failCase.id), id: id(), parentId: root.id, text: 'Looking into the approval workflow condition.', byTeam: true, authorId: 3, authorName: 'Sample Consultant' });
-  comments.push({ ...blankComment(cases[5].id), id: id(), text: 'Which email template should we expect here?', type: 'Clarification', authorId: other.id, authorName: other.name });
+  }
 }
 
 function blankComment(caseId: number): Comment & { postedMs: number } {

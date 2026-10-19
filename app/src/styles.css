@@ -173,7 +173,7 @@ button:focus-visible, tr:focus-visible, .dropzone:focus-within { outline: 2px so
 
 /* ---------- app shell ---------- */
 .app { display: flex; flex-direction: column; height: 100%; }
-.topbar { background: linear-gradient(180deg, var(--bar), var(--bar-2)); color: var(--bar-ink); padding: 0 20px; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2); }
+.topbar { background: linear-gradient(180deg, var(--bar), var(--bar-2)); color: var(--bar-ink); padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2); }
 .topbar-row { display: flex; align-items: center; gap: 12px; min-height: 56px; }
 .brand { display: flex; align-items: center; gap: 10px; flex: none; }
 .brand-mark {
@@ -208,7 +208,7 @@ button:focus-visible, tr:focus-visible, .dropzone:focus-within { outline: 2px so
 .tab.on::after { content: ''; position: absolute; left: 10px; right: 10px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: #8b8cf8; }
 .tab:disabled { opacity: 0.4; cursor: default; }
 
-.main { flex: 1; min-height: 0; overflow: auto; padding: 20px; }
+.main { flex: 1; min-height: 0; overflow: auto; padding-block: 20px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
 .main.with-detail { display: grid; grid-template-columns: minmax(0, 1fr) minmax(440px, 42%); gap: 20px; overflow: hidden; }
 .list-pane { display: flex; flex-direction: column; min-height: 0; gap: 12px; }
 .with-detail .list-pane { overflow: hidden; }
@@ -438,11 +438,11 @@ th {
 }
 
 @media (max-width: 720px) {
-  .topbar { padding: 0 12px; }
+  .topbar { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .topbar-row { gap: 8px; min-height: 52px; }
   .brand-name, .hide-sm { display: none; }
   .cycle-select { flex: 1 1 auto; max-width: none; }
-  .main { padding: 12px; }
+  .main { padding-block: 12px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .detail { padding: 16px; }
   .filter-row select { flex: 1 1 140px; }
   .chip-row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
@@ -468,3 +468,13 @@ th {
   .cases tbody tr.selected td:first-child { box-shadow: none; }
   .cases tbody tr.selected { border-color: var(--accent); }
 }
+
+/* ---------- demo ---------- */
+.portal { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.demo-bar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px;
+  padding-block: 6px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--warn-bg); color: var(--warn-ink); font-size: 13px; border-bottom: 1px solid var(--border);
+}
+.demo-bar label { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.demo-bar select { padding: 3px 8px; font-size: 13px; }

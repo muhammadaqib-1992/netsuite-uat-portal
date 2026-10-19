@@ -26,6 +26,17 @@
         "serve:build"
       ],
       "port": 4173
+    },
+    {
+      "name": "app-demo",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "app",
+        "run",
+        "demo"
+      ],
+      "port": 4174
     }
   ]
 }
