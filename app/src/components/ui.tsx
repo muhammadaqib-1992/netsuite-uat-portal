@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
 import type { Api } from '../api/api';
 import { ApiError } from '../api/api';
 import type { Bootstrap, CaseStatus } from '../types';
+import { CloseIcon, MonitorIcon, MoonIcon, SunIcon } from './icons';
 
 export const ApiContext = createContext<Api | null>(null);
 export const BootContext = createContext<Bootstrap | null>(null);
@@ -32,8 +33,15 @@ const STATUS_CLASS: Record<CaseStatus, string> = {
   'N/A': 'st-na',
 };
 
+export const statusClass = (s: CaseStatus) => STATUS_CLASS[s] ?? 'st-none';
+
 export function StatusPill({ status }: { status: CaseStatus }) {
-  return <span className={`pill ${STATUS_CLASS[status] ?? 'st-none'}`}>{status}</span>;
+  return (
+    <span className={`pill ${statusClass(status)}`}>
+      <span className="dot" aria-hidden />
+      {status}
+    </span>
+  );
 }
 
 export function Spinner({ label }: { label?: string }) {
@@ -57,7 +65,7 @@ export function Modal({ title, onClose, children, wide }: { title: string; onClo
         <div className="modal-head">
           <h2>{title}</h2>
           <button className="icon-btn" onClick={onClose} aria-label="Close">
-            ×
+            <CloseIcon />
           </button>
         </div>
         <div className="modal-body">{children}</div>
@@ -91,6 +99,60 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 }
 
 export const useToast = () => useContext(ToastContext);
+
+type ThemeChoice = 'system' | 'light' | 'dark';
+const THEME_KEY = 'uat-portal-theme';
+const NEXT_THEME: Record<ThemeChoice, ThemeChoice> = { system: 'light', light: 'dark', dark: 'system' };
+
+function readTheme(): ThemeChoice {
+  try {
+    const v = localStorage.getItem(THEME_KEY);
+    return v === 'light' || v === 'dark' ? v : 'system';
+  } catch {
+    return 'system';
+  }
+}
+
+function applyTheme(t: ThemeChoice) {
+  if (t === 'system') delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = t;
+}
+
+applyTheme(readTheme());
+
+/** Cycles System → Light → Dark; remembered in this browser only. */
+export function ThemeToggle() {
+  const [theme, setTheme] = useState<ThemeChoice>(readTheme);
+  function next() {
+    const t = NEXT_THEME[theme];
+    setTheme(t);
+    applyTheme(t);
+    try {
+      localStorage.setItem(THEME_KEY, t);
+    } catch {
+      /* storage unavailable: the choice lasts for this page only */
+    }
+  }
+  const label = `Theme: ${theme}`;
+  return (
+    <button className="icon-btn topbar-icon" onClick={next} title={`${label} (click to change)`} aria-label={label}>
+      {theme === 'light' ? <SunIcon /> : theme === 'dark' ? <MoonIcon /> : <MonitorIcon />}
+    </button>
+  );
+}
+
+export function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  return ((parts[0]?.[0] ?? '?') + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+}
+
+export function Avatar({ name, team }: { name: string; team?: boolean }) {
+  return (
+    <span className={`avatar ${team ? 'avatar-team' : ''}`} aria-hidden>
+      {initials(name || '?')}
+    </span>
+  );
+}
 
 export function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: ReactNode }) {
   return (

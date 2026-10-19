@@ -3,7 +3,7 @@
 import * as XLSX from 'xlsx';
 import fs from 'node:fs';
 import path from 'node:path';
-import { buildExport, buildMapping, dataSheets, extractRows, LATEST_COMMENT, COMMENTS_SHEET, META_SHEET } from '../src/lib/excel';
+import { bestSheet, buildExport, buildMapping, extractRows, LATEST_COMMENT, COMMENTS_SHEET, META_SHEET } from '../src/lib/excel';
 import type { CaseDetail, Comment, Cycle } from '../src/types';
 
 const dir = path.resolve(process.cwd(), '../sample-data');
@@ -17,7 +17,8 @@ for (const name of ['sample-order-to-cash.xlsx', 'sample-procure-to-pay.xlsx']) 
   console.log(`\n${name}`);
   const buf = fs.readFileSync(path.join(dir, name));
   const wb = XLSX.read(buf, { type: 'buffer' });
-  const sheet = dataSheets(wb).find((s) => s !== 'Instructions')!;
+  const sheet = bestSheet(wb);
+  check(sheet !== 'Instructions', `picked the cases sheet (${sheet}), not Instructions`);
   const mapping = buildMapping(wb, sheet);
   check(!!mapping.fields.ref && !!mapping.fields.steps, `auto-mapped Case ID (${mapping.fields.ref}) and Steps (${mapping.fields.steps}) on header row ${mapping.headerRow + 1}`);
   const { rows, issues } = extractRows(wb, mapping);

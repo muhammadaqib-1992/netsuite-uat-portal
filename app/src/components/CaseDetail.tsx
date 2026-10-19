@@ -4,6 +4,7 @@ import type { CaseBundle, CaseStatus, CaseSummary, Comment } from '../types';
 import { toAttachment } from '../lib/files';
 import { Comments } from './Comments';
 import { FileLink } from './FileView';
+import { ChevronLeftIcon, CloseIcon, UploadIcon } from './icons';
 import { Spinner, StatusPill, errorText, useApi, useBoot, useToast } from './ui';
 
 interface Props {
@@ -94,23 +95,32 @@ export function CaseDetail({ caseId, onUpdated, onClose }: Props) {
 
   return (
     <div className="detail">
+      <button className="back-btn" onClick={onClose}>
+        <ChevronLeftIcon /> All test cases
+      </button>
       <div className="detail-head">
-        <div>
-          <div className="muted small">{c.module}</div>
+        <div className="detail-title">
+          <div className="eyebrow">
+            {c.module || 'Test case'}
+            {c.assigned && <span> · Assigned to {c.assigned}</span>}
+          </div>
           <h2>
-            <span className="mono">{c.ref}</span> <StatusPill status={c.status} />
+            <span className="mono">{c.ref}</span>
+            <StatusPill status={c.status} />
           </h2>
+          {c.scenario && <p className="scenario-text">{c.scenario}</p>}
         </div>
-        <button className="icon-btn" onClick={onClose} aria-label="Close case">
-          ×
+        <button className="icon-btn close-btn" onClick={onClose} aria-label="Close case">
+          <CloseIcon />
         </button>
       </div>
-      {c.scenario && <p className="scenario-text">{c.scenario}</p>}
 
-      <TextBlock title="Pre-conditions" text={c.precond} />
-      <TextBlock title="Test data" text={c.testData} />
-      <TextBlock title="Steps" text={c.steps} />
-      <TextBlock title="Expected result" text={c.expected} />
+      <div className="spec">
+        <TextBlock title="Pre-conditions" text={c.precond} />
+        <TextBlock title="Test data" text={c.testData} />
+        <TextBlock title="Steps" text={c.steps} />
+        <TextBlock title="Expected result" text={c.expected} />
+      </div>
       {extra.length > 0 && (
         <details className="extra">
           <summary>More from the workbook ({extra.length})</summary>
@@ -125,7 +135,7 @@ export function CaseDetail({ caseId, onUpdated, onClose }: Props) {
         </details>
       )}
 
-      <section className="result">
+      <section className="result panel">
         <h3>Result</h3>
         {conflict && (
           <div className="banner banner-warn">
@@ -169,6 +179,7 @@ export function CaseDetail({ caseId, onUpdated, onClose }: Props) {
           </button>
           {data.cycle.screenshots && (
             <label className="btn">
+              <UploadIcon size={14} />
               {c.evidenceId ? 'Replace evidence' : 'Attach evidence'}
               <input type="file" accept="image/png,image/jpeg,image/gif" hidden onChange={(e) => uploadEvidence(e.target.files?.[0])} />
             </label>

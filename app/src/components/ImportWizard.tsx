@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Cycle, FieldKey, Mapping, MappingTemplate } from '../types';
-import { FIELDS, buildMapping, dataSheets, extractRows, readWorkbookFile, sheetRows, type ParsedWorkbook } from '../lib/excel';
+import { FIELDS, bestSheet, buildMapping, dataSheets, extractRows, readWorkbookFile, sheetRows, type ParsedWorkbook } from '../lib/excel';
 import { Field, errorText, useApi, useBoot, useToast } from './ui';
+import { UploadIcon } from './icons';
 
 const BATCH_SIZE = 50;
 
@@ -21,6 +22,7 @@ export function ImportWizard({ cycles, onDone }: Props) {
   const [cycleForm, setCycleForm] = useState({ name: '', env: '', start: '', end: '' });
   const [progress, setProgress] = useState<{ done: number; total: number; created: number; updated: number } | null>(null);
   const [running, setRunning] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
   useEffect(() => {
     api.templates().then(setTemplates).catch(() => setTemplates([]));
@@ -34,7 +36,7 @@ export function ImportWizard({ cycles, onDone }: Props) {
       if (!sheets.length) throw new Error('The workbook has no sheets.');
       const existing = p.exportedCycleId ? cycles.find((c) => c.id === p.exportedCycleId) : undefined;
       const prior = existing ? (await api.cycle(existing.id)).mapping : null;
-      const sheet = prior && sheets.includes(prior.sheetName) ? prior.sheetName : sheets[0];
+      const sheet = prior && sheets.includes(prior.sheetName) ? prior.sheetName : bestSheet(p.wb);
       const m = buildMapping(p.wb, sheet, prior?.sheetName === sheet ? prior.headerRow : undefined);
       if (prior) m.fields = { ...m.fields, ...Object.fromEntries(Object.entries(prior.fields).filter(([, h]) => h && m.headers.includes(h))) };
       setParsed(p);
@@ -120,8 +122,26 @@ export function ImportWizard({ cycles, onDone }: Props) {
   return (
     <div className="import">
       <section className="card">
-        <h3>1. Choose a workbook</h3>
-        <input type="file" accept=".xlsx" onChange={(e) => pick(e.target.files?.[0])} disabled={running} />
+        <h3 className="step-title"><span className="step">1</span>Choose a workbook</h3>
+        <label
+          className={`dropzone ${dragging ? 'over' : ''} ${running ? 'disabled' : ''}`}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragging(true);
+          }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragging(false);
+            if (!running) pick(e.dataTransfer.files[0]);
+          }}
+        >
+          <UploadIcon size={22} />
+          <span>
+            <b>{parsed ? 'Choose a different workbook' : 'Drop a .xlsx workbook here'}</b> or click to browse
+          </span>
+          <input type="file" accept=".xlsx" onChange={(e) => pick(e.target.files?.[0])} disabled={running} />
+        </label>
         {parsed && (
           <p className="muted small">
             {parsed.fileName} · {parsed.wb.SheetNames.length} sheet(s)
@@ -132,7 +152,7 @@ export function ImportWizard({ cycles, onDone }: Props) {
 
       {parsed && mapping && (
         <section className="card">
-          <h3>2. Map columns</h3>
+          <h3 className="step-title"><span className="step">2</span>Map columns</h3>
           <div className="row wrap">
             <Field label="Sheet">
               <select value={mapping.sheetName} onChange={(e) => setMapping(buildMapping(parsed.wb, e.target.value))}>
@@ -182,7 +202,7 @@ export function ImportWizard({ cycles, onDone }: Props) {
 
       {result && (
         <section className="card">
-          <h3>3. Check</h3>
+          <h3 className="step-title"><span className="step">3</span>Check</h3>
           <p>
             <strong>{result.rows.length}</strong> test cases found.{' '}
             {errors.length > 0 ? <span className="error">{errors.length} error(s) must be fixed in the workbook first.</span> : <span className="ok">Ready to import.</span>}
@@ -203,7 +223,7 @@ export function ImportWizard({ cycles, onDone }: Props) {
 
       {result && errors.length === 0 && (
         <section className="card">
-          <h3>4. Import into</h3>
+          <h3 className="step-title"><span className="step">4</span>Import into</h3>
           <div className="row wrap">
             <label className="check">
               <input type="radio" checked={target === 'new'} onChange={() => setTarget('new')} /> A new cycle

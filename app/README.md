@@ -6,6 +6,7 @@ React 18 + Vite 8 + TypeScript 7, SheetJS for Excel. Needs Node 20.19+ or 22.12+
 npm install
 npm run dev          # http://localhost:5173 with an in-memory mock API (no NetSuite needed)
 npm run build        # typecheck + build into the SDF File Cabinet folder
+npm run serve:build  # http://localhost:4173: the production build, served like the Suitelet, with a mock RESTlet
 npm run test:excel   # import → export → re-import checks on the sample workbooks
 npm run samples      # regenerate ../sample-data/sample-*.xlsx
 ```

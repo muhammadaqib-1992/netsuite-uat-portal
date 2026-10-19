@@ -29,8 +29,8 @@ export function Dashboard({ cases, onOpen }: { cases: CaseSummary[]; onOpen: (id
     <div className="dashboard">
       <div className="tiles">
         <Tile label="Test cases" value={total} />
-        <Tile label="Executed" value={`${pct(stats.executed, total)}%`} sub={`${stats.executed} of ${total}`} />
-        <Tile label="Passed" value={`${pct(stats.byStatus.Pass, total)}%`} sub={`${stats.byStatus.Pass} case${stats.byStatus.Pass === 1 ? '' : 's'}`} />
+        <Tile label="Executed" value={`${pct(stats.executed, total)}%`} sub={`${stats.executed} of ${total}`} progress={pct(stats.executed, total)} />
+        <Tile label="Passed" value={`${pct(stats.byStatus.Pass, total)}%`} sub={`${stats.byStatus.Pass} case${stats.byStatus.Pass === 1 ? '' : 's'}`} progress={pct(stats.byStatus.Pass, total)} tone="ok" />
         <Tile label="Open Fail / Blocked" value={open.length} alert={open.length > 0} />
       </div>
 
@@ -105,19 +105,24 @@ export function Dashboard({ cases, onOpen }: { cases: CaseSummary[]; onOpen: (id
             ))}
           </ul>
         ) : (
-          <p className="muted">None. 🎉</p>
+          <p className="muted">No open Fail or Blocked cases.</p>
         )}
       </section>
     </div>
   );
 }
 
-function Tile({ label, value, sub, alert }: { label: string; value: string | number; sub?: string; alert?: boolean }) {
+function Tile({ label, value, sub, alert, progress, tone }: { label: string; value: string | number; sub?: string; alert?: boolean; progress?: number; tone?: 'ok' }) {
   return (
     <div className={`tile ${alert ? 'tile-alert' : ''}`}>
       <div className="tile-label">{label}</div>
       <div className="tile-value">{value}</div>
       {sub && <div className="tile-sub">{sub}</div>}
+      {progress !== undefined && (
+        <div className={`meter ${tone === 'ok' ? 'meter-ok' : ''}`} aria-hidden>
+          <span style={{ width: `${progress}%` }} />
+        </div>
+      )}
     </div>
   );
 }

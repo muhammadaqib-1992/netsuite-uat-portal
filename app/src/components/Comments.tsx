@@ -1,7 +1,8 @@
 import { useState, type ClipboardEvent } from 'react';
 import type { Attachment, Comment, CommentType } from '../types';
 import { toAttachment } from '../lib/files';
-import { errorText, useApi, useBoot, useToast } from './ui';
+import { Avatar, errorText, useApi, useBoot, useToast } from './ui';
+import { CloseIcon, PaperclipIcon } from './icons';
 import { FileLink } from './FileView';
 
 interface Props {
@@ -70,6 +71,8 @@ function CommentItem({ comment: c, onChange, onReply }: { comment: Comment; onCh
 
   return (
     <article className={`comment ${c.byTeam ? 'comment-team' : ''}`}>
+      <Avatar name={c.authorName || '?'} team={c.byTeam} />
+      <div className="comment-body">
       <header>
         <strong>{c.authorName || 'Unknown'}</strong>
         {c.byTeam && <span className="tag tag-team">Implementation team</span>}
@@ -109,6 +112,7 @@ function CommentItem({ comment: c, onChange, onReply }: { comment: Comment; onCh
           )}
         </footer>
       )}
+      </div>
     </article>
   );
 }
@@ -186,14 +190,14 @@ function Composer({
         {screenshots &&
           (attachment ? (
             <span className="chip">
-              📎 {attachment.name}
+              <PaperclipIcon size={13} /> {attachment.name}
               <button className="icon-btn" onClick={() => setAttachment(null)} aria-label="Remove attachment">
-                ×
+                <CloseIcon size={14} />
               </button>
             </span>
           ) : (
-            <label className="btn btn-sm">
-              Attach screenshot
+            <label className="btn btn-sm btn-ghost">
+              <PaperclipIcon size={14} /> Screenshot
               <input type="file" accept="image/png,image/jpeg,image/gif" hidden onChange={(e) => attach(e.target.files?.[0])} />
             </label>
           ))}

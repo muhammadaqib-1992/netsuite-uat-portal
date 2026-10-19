@@ -7,7 +7,8 @@ import { CaseDetail as CaseDetailView } from './components/CaseDetail';
 import { Dashboard } from './components/Dashboard';
 import { ImportWizard } from './components/ImportWizard';
 import { CycleSettings } from './components/CycleSettings';
-import { ApiContext, BootContext, Spinner, errorText, useToast } from './components/ui';
+import { ApiContext, Avatar, BootContext, Spinner, ThemeToggle, errorText, useToast } from './components/ui';
+import { DownloadIcon, RefreshIcon, SheetIcon } from './components/icons';
 
 type Tab = 'cases' | 'dashboard' | 'import' | 'settings';
 
@@ -134,27 +135,49 @@ function Portal({ api, boot }: { api: Api; boot: Bootstrap }) {
   return (
     <div className="app">
       <header className="topbar">
-        <div className="brand">UAT Portal</div>
-        {cycles.length > 0 && (
-          <select
-            className="cycle-select"
-            value={cycleId ?? ''}
-            onChange={(e) => {
-              setCycleId(Number(e.target.value));
-              setSelected(null);
-              setFilters(emptyFilters);
-            }}
-            aria-label="UAT cycle"
-          >
-            {cycles.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-                {c.status !== 'Active' ? ` (${c.status})` : ''}
-              </option>
-            ))}
-          </select>
-        )}
-        <nav className="tabs">
+        <div className="topbar-row">
+          <div className="brand">
+            <span className="brand-mark" aria-hidden>
+              <SheetIcon size={16} />
+            </span>
+            <span className="brand-name">UAT Portal</span>
+          </div>
+          {cycles.length > 0 && (
+            <select
+              className="cycle-select"
+              value={cycleId ?? ''}
+              onChange={(e) => {
+                setCycleId(Number(e.target.value));
+                setSelected(null);
+                setFilters(emptyFilters);
+              }}
+              aria-label="UAT cycle"
+            >
+              {cycles.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                  {c.status !== 'Active' ? ` (${c.status})` : ''}
+                </option>
+              ))}
+            </select>
+          )}
+          <span className="spacer" />
+          {cycle && (
+            <button className="btn btn-on-dark" onClick={exportCycle} disabled={!!exporting} title="Export the cycle to Excel">
+              <DownloadIcon />
+              <span className="hide-sm">{exporting || 'Export to Excel'}</span>
+            </button>
+          )}
+          <ThemeToggle />
+          <span className="user" title={`${boot.user.name} · role ${boot.user.roleId}`}>
+            <Avatar name={boot.user.name} team={team} />
+            <span className="user-meta hide-sm">
+              <span className="user-name">{boot.user.name}</span>
+              <span className="user-level">{boot.user.level === 'team' ? 'Implementation team' : boot.user.level === 'lead' ? 'UAT lead' : 'Tester'}</span>
+            </span>
+          </span>
+        </div>
+        <nav className="tabs" aria-label="Sections">
           <TabButton tab="cases" current={tab} onClick={setTab} disabled={!cycle}>
             Test cases
           </TabButton>
@@ -174,16 +197,6 @@ function Portal({ api, boot }: { api: Api; boot: Bootstrap }) {
             </TabButton>
           )}
         </nav>
-        <span className="spacer" />
-        {cycle && (
-          <button className="btn btn-sm" onClick={exportCycle} disabled={!!exporting}>
-            {exporting || 'Export to Excel'}
-          </button>
-        )}
-        <span className="user" title={`Role: ${boot.user.roleId}`}>
-          {boot.user.name}
-          <span className={`level level-${boot.user.level}`}>{boot.user.level === 'team' ? 'Implementation team' : boot.user.level === 'lead' ? 'UAT lead' : 'Tester'}</span>
-        </span>
       </header>
 
       <main className={`main ${tab === 'cases' && selected ? 'with-detail' : ''}`}>
@@ -204,11 +217,13 @@ function Portal({ api, boot }: { api: Api; boot: Bootstrap }) {
             <div className="list-pane">
               <div className="list-head">
                 <CaseFilters cases={cases} filters={filters} onChange={setFilters} />
-                <div className="muted small">
-                  {visible.length} of {cases.length} cases
-                  {cycle.env && ` · ${cycle.env}`}
-                  {' · '}
-                  <button className="link-btn" onClick={loadCases} disabled={loadingCases}>
+                <div className="list-meta">
+                  <span>
+                    Showing <b>{visible.length}</b> of {cases.length} cases
+                    {cycle.env && <span className="env">{cycle.env}</span>}
+                  </span>
+                  <button className="btn btn-ghost btn-sm" onClick={loadCases} disabled={loadingCases}>
+                    <RefreshIcon size={14} className={loadingCases ? 'spin' : ''} />
                     {loadingCases ? 'Refreshing…' : 'Refresh'}
                   </button>
                 </div>

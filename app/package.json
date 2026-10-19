@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "samples": "node scripts/make-samples.mjs",
-    "test:excel": "esbuild scripts/roundtrip-test.ts --bundle --platform=node --log-level=warning --outfile=node_modules/.cache/rt.cjs && node node_modules/.cache/rt.cjs"
+    "test:excel": "esbuild scripts/roundtrip-test.ts --bundle --platform=node --log-level=warning --outfile=node_modules/.cache/rt.cjs && node node_modules/.cache/rt.cjs",
+    "serve:build": "node scripts/serve-build.mjs"
   },
   "dependencies": {
     "react": "18.3.1",

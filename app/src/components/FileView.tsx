@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { FileData } from '../types';
 import { dataUrl } from '../lib/files';
 import { Modal, errorText, useApi, useToast } from './ui';
+import { PaperclipIcon } from './icons';
 
 /** A file name that opens the image from the File Cabinet (via the API) in a viewer. */
 export function FileLink({ fileId, name }: { fileId: number; name: string }) {
@@ -24,7 +25,7 @@ export function FileLink({ fileId, name }: { fileId: number; name: string }) {
   return (
     <>
       <button className="file-link" onClick={open} disabled={busy}>
-        📎 {busy ? 'Opening…' : name || 'Attachment'}
+        <PaperclipIcon size={13} /> {busy ? 'Opening…' : name || 'Attachment'}
       </button>
       {file && (
         <Modal title={file.name} onClose={() => setFile(null)} wide>

@@ -158,6 +158,21 @@ export function detectHeaderRow(rows: string[][]): number {
   return best;
 }
 
+/** The data sheet whose header row maps the most portal fields (ties go to the earlier sheet). */
+export function bestSheet(wb: XLSX.WorkBook): string {
+  let best = dataSheets(wb)[0];
+  let bestScore = -1;
+  for (const name of dataSheets(wb)) {
+    const m = buildMapping(wb, name);
+    const score = Object.keys(m.fields).length + (m.fields.ref ? 5 : 0) + (m.fields.steps ? 5 : 0);
+    if (score > bestScore) {
+      best = name;
+      bestScore = score;
+    }
+  }
+  return best;
+}
+
 export function buildMapping(wb: XLSX.WorkBook, sheetName: string, headerRow?: number): Mapping {
   const rows = sheetRows(wb, sheetName);
   const hr = headerRow ?? detectHeaderRow(rows);
