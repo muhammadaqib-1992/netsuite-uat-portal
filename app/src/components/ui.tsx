@@ -29,6 +29,7 @@ const STATUS_CLASS: Record<CaseStatus, string> = {
   'In Progress': 'st-progress',
   Pass: 'st-pass',
   Fail: 'st-fail',
+  Retest: 'st-retest',
   Blocked: 'st-blocked',
   'N/A': 'st-na',
 };

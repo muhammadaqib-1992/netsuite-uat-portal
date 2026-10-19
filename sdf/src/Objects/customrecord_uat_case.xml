@@ -263,7 +263,7 @@
       <encryptatrest>F</encryptatrest>
       <fieldtype>TEXT</fieldtype>
       <globalsearch>F</globalsearch>
-      <help>Not Started, In Progress, Pass, Fail, Blocked or N/A. Set from the portal.</help>
+      <help>Not Started, In Progress, Pass, Fail, Retest, Blocked or N/A. Set from the portal.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>

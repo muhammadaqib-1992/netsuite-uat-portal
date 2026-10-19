@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ApiError } from '../api/api';
 import type { CaseBundle, CaseStatus, CaseSummary, Comment } from '../types';
 import { toAttachment } from '../lib/files';
+import { SHEET_KEY } from '../lib/excel';
 import { Comments } from './Comments';
 import { FileLink } from './FileView';
 import { ChevronLeftIcon, CloseIcon, UploadIcon } from './icons';
@@ -66,7 +67,7 @@ export function CaseDetail({ caseId, onUpdated, onClose }: Props) {
   const c = data.case;
   const needsReason = FAILING.includes(status) && status !== c.status;
   const dirty = status !== c.status || actual !== (c.actual || '') || defect !== (c.defect || '');
-  const extra = Object.entries(c.row || {}).filter(([k, v]) => v !== '' && v !== null && !Object.values(data.cycle.mapping?.fields ?? {}).includes(k));
+  const extra = Object.entries(c.row || {}).filter(([k, v]) => k !== SHEET_KEY && v !== '' && v !== null && !Object.values(data.cycle.mapping?.fields ?? {}).includes(k));
 
   async function save() {
     setSaving(true);

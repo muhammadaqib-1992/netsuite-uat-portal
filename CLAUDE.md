@@ -24,7 +24,8 @@ account ID, internal ID, URL or client data in code, config, docs or sample file
 
 ## Decisions already made (don't re-ask)
 
-- Status is **per case only**.
+- Status is **per case only**. Seven statuses: Not Started, In Progress, Pass, Fail, Retest, Blocked,
+  N/A. A workbook's own status words are mapped to these per cycle.
 - Comments are **threaded**, one reply level; no internal-only comments; no deletes, author can
   edit for 15 minutes.
 - Screenshots and email alerts are both in v1, each with an **on/off switch**: account default as a

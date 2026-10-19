@@ -79,3 +79,82 @@ write(
   p2p,
   [10, 14, 44, 28, 22, 50, 44, 12, 34, 10]
 );
+
+// ---------- multi-sheet workbook (one sheet per module, tracker with formulas, dropdowns) ----------
+// Mirrors a common UAT layout: table starts in column B, title row, header on row 2,
+// section heading rows between cases, a Results dropdown, and a tracker sheet that counts results.
+import ExcelJS from 'exceljs';
+
+const RESULTS = ['Pass', 'Fail', 'Needs Discussion', 'Pending', 'Retest', 'N/A'];
+const HEAD = ['No.', 'Scenario', 'Step Name', 'Step Instructions', 'Notes / Prerequisites', 'Expected Results', 'Results\n(Pass / Fail / N/A)', 'Role', 'Actual Results & Date', 'Comments'];
+const web = {
+  'Home Page': [
+    ['Hero Banner', [['Banner rotates through slides', 'Open the home page.\nWait 10 seconds.', 'Guest visitor', 'Slides change automatically and arrows work.']]],
+    ['Featured Products', [['Featured products show prices', 'Scroll to Featured Products.', 'Signed-in customer', 'Each product shows image, name and price.'], ['Guest sees no prices', 'Sign out and open the home page.', 'Guest visitor', 'Prices are replaced by "Sign in for pricing".']]],
+  ],
+  Search: [
+    ['Keyword Search', [['Search by item name', 'Type "Sample Lamp" in search and press Enter.', '', 'Matching items are listed first.'], ['No results message', 'Search for "zzzz".', '', 'A friendly no-results message appears.']]],
+  ],
+  'Cart and Checkout': [
+    ['Cart', [['Add an item to the cart', 'Open a product page.\nClick Add to Cart.', 'Signed-in customer', 'Cart count increases by one.']]],
+    ['Checkout', [['Place an order on account', 'Go to checkout.\nChoose Pay on Account.\nSubmit.', 'Customer with terms', 'Order confirmation page shows the order number.'], ['Card payment is hidden for account customers', 'Go to checkout as an account customer.', 'Customer with terms', 'Credit card option is not shown.']]],
+  ],
+  'My Account': [
+    ['Order History', [['View past orders', 'Open My Account > Orders.', 'Signed-in customer', 'Orders list shows the last 12 months.']]],
+    ['Invoices', [['Download an invoice PDF', 'Open My Account > Invoices.\nClick Download.', 'Signed-in customer', 'Invoice PDF downloads.']]],
+  ],
+};
+
+const xb = new ExcelJS.Workbook();
+const tracker = xb.addWorksheet('UAT Tracker');
+tracker.getCell('A1').value = 'Web Store UAT (sample data)';
+tracker.getCell('A1').font = { bold: true, size: 14 };
+tracker.addRow([]);
+const tHead = ['Worksheet', 'Total', ...RESULTS, 'Not Run'];
+tracker.getRow(2).values = tHead;
+tracker.getRow(2).font = { bold: true };
+const names = Object.keys(web);
+names.forEach((n, i) => {
+  const r = 4 + i;
+  const q = `'${n}'`;
+  tracker.getRow(r).values = [n, { formula: `COUNTA(${q}!B3:B200)-COUNTIF(${q}!B3:B200,"* *")` }];
+  RESULTS.forEach((res, j) => {
+    tracker.getRow(r).getCell(3 + j).value = { formula: `COUNTIF(${q}!H3:H200,"${res}")` };
+  });
+  tracker.getRow(r).getCell(3 + RESULTS.length).value = { formula: `B${r}-SUM(C${r}:${String.fromCharCode(66 + RESULTS.length)}${r})` };
+});
+tracker.getRow(3).values = ['All', { formula: `SUM(B4:B${3 + names.length})` }];
+tracker.columns.forEach((c) => (c.width = 16));
+
+for (const n of names) {
+  const ws = xb.addWorksheet(n);
+  ws.getColumn(1).width = 3;
+  [8, 22, 32, 42, 28, 40, 14, 18, 30, 30].forEach((w, i) => (ws.getColumn(i + 2).width = w));
+  ws.mergeCells('B1:K1');
+  ws.getCell('B1').value = `Web Store UAT – ${n} (sample data)`;
+  ws.getCell('B1').font = { bold: true, size: 14 };
+  const hr = ws.getRow(2);
+  HEAD.forEach((h, i) => {
+    const c = hr.getCell(i + 2);
+    c.value = h;
+    c.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1F3A5F' } };
+    c.alignment = { wrapText: true, vertical: 'middle' };
+  });
+  let r = 3;
+  web[n].forEach(([section, steps], si) => {
+    ws.mergeCells(`B${r}:K${r}`);
+    ws.getCell(`B${r}`).value = `${si + 1} ${section}`;
+    ws.getCell(`B${r}`).font = { bold: true };
+    ws.getCell(`B${r}`).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFDCE6F2' } };
+    r++;
+    steps.forEach(([name, instr, role, expected], k) => {
+      ws.getRow(r).values = [null, `${si + 1}.${k + 1}`, section, name, instr, '- Use the sample web store in the test environment.', expected, null, role, null, null];
+      ws.getRow(r).alignment = { wrapText: true, vertical: 'top' };
+      ws.getCell(`H${r}`).dataValidation = { type: 'list', allowBlank: true, formulae: [`"${RESULTS.join(',')}"`] };
+      r++;
+    });
+  });
+}
+await xb.xlsx.writeFile(path.join(outDir, 'sample-web-store-multi-sheet.xlsx'));
+console.log('wrote', path.join(outDir, 'sample-web-store-multi-sheet.xlsx'));

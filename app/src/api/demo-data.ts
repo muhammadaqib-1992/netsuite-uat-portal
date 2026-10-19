@@ -152,7 +152,7 @@ export const DEMO_CYCLES: DemoCycle[] = [
         precond: 'Email template deployed.', testData: 'Invoice: INV-2207',
         steps: ['Open the invoice', 'Click Email', 'Review the preview and send to a test inbox'],
         expected: 'Email uses the standard template with the company logo and PDF attached.',
-        assigned: 'sam', status: 'Fail', actual: 'Email arrives without the PDF attachment.', defect: 'DEF-121', ran: 40,
+        assigned: 'sam', status: 'Retest', actual: 'Email arrives without the PDF attachment.', defect: 'DEF-121', ran: 40,
         comments: [
           {
             by: 'sam', type: 'Fail Reason', text: 'No attachment on the email. The template preview does show it.', ago: 40,
@@ -249,7 +249,7 @@ export const DEMO_CYCLES: DemoCycle[] = [
         precond: 'Requisition from P2P-002 approved.', testData: '',
         steps: ['Approve the requisition', 'Create the purchase order from it'],
         expected: 'Purchase order is created and linked to the requisition.',
-        assigned: 'jordan', status: 'Fail', actual: 'PO created but the requisition link is missing.', defect: 'DEF-130', ran: 80,
+        assigned: 'jordan', status: 'Retest', actual: 'PO created but the requisition link is missing.', defect: 'DEF-130', ran: 80,
         comments: [
           {
             by: 'jordan', type: 'Fail Reason', text: 'The Related Records subtab on the PO is empty.', ago: 80,

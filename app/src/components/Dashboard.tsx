@@ -2,7 +2,9 @@ import { useMemo } from 'react';
 import type { CaseStatus, CaseSummary } from '../types';
 import { StatusPill, useBoot } from './ui';
 
+// Retest means a fix is waiting to be tested again, so it counts as open, not executed.
 const EXECUTED: CaseStatus[] = ['Pass', 'Fail', 'Blocked', 'N/A'];
+const OPEN: CaseStatus[] = ['Fail', 'Blocked', 'Retest'];
 const pct = (n: number, d: number) => (d ? Math.round((n / d) * 100) : 0);
 
 export function Dashboard({ cases, onOpen }: { cases: CaseSummary[]; onOpen: (id: number) => void }) {
@@ -23,7 +25,7 @@ export function Dashboard({ cases, onOpen }: { cases: CaseSummary[]; onOpen: (id
   }, [cases, boot.caseStatuses]);
 
   const total = cases.length;
-  const open = cases.filter((c) => c.status === 'Fail' || c.status === 'Blocked');
+  const open = cases.filter((c) => OPEN.includes(c.status));
 
   return (
     <div className="dashboard">
@@ -31,7 +33,7 @@ export function Dashboard({ cases, onOpen }: { cases: CaseSummary[]; onOpen: (id
         <Tile label="Test cases" value={total} />
         <Tile label="Executed" value={`${pct(stats.executed, total)}%`} sub={`${stats.executed} of ${total}`} progress={pct(stats.executed, total)} />
         <Tile label="Passed" value={`${pct(stats.byStatus.Pass, total)}%`} sub={`${stats.byStatus.Pass} case${stats.byStatus.Pass === 1 ? '' : 's'}`} progress={pct(stats.byStatus.Pass, total)} tone="ok" />
-        <Tile label="Open Fail / Blocked" value={open.length} alert={open.length > 0} />
+        <Tile label="Open issues" value={open.length} sub="Fail, Blocked or Retest" alert={open.length > 0} />
       </div>
 
       <section className="card">
@@ -90,7 +92,7 @@ export function Dashboard({ cases, onOpen }: { cases: CaseSummary[]; onOpen: (id
       </section>
 
       <section className="card">
-        <h3>Open Fail and Blocked cases</h3>
+        <h3>Open Fail, Blocked and Retest cases</h3>
         {open.length ? (
           <ul className="open-list">
             {open.map((c) => (
@@ -105,7 +107,7 @@ export function Dashboard({ cases, onOpen }: { cases: CaseSummary[]; onOpen: (id
             ))}
           </ul>
         ) : (
-          <p className="muted">No open Fail or Blocked cases.</p>
+          <p className="muted">No open Fail, Blocked or Retest cases.</p>
         )}
       </section>
     </div>

@@ -1,6 +1,6 @@
 export type Level = 'team' | 'lead' | 'tester';
 
-export type CaseStatus = 'Not Started' | 'In Progress' | 'Pass' | 'Fail' | 'Blocked' | 'N/A';
+export type CaseStatus = 'Not Started' | 'In Progress' | 'Pass' | 'Fail' | 'Retest' | 'Blocked' | 'N/A';
 export type CycleStatus = 'Planned' | 'Active' | 'Closed';
 export type CommentType = 'General' | 'Clarification' | 'Fail Reason' | 'Retest Note' | 'Resolution';
 
@@ -26,21 +26,38 @@ export type FieldKey =
   | 'actual'
   | 'defect'
   | 'executedBy'
-  | 'executedOn';
+  | 'executedOn'
+  | 'comments';
+
+/** Where one sheet's table sits. Row and column numbers are 0-based and absolute. */
+export interface SheetLayout {
+  name: string;
+  /** First row and column of the sheet's used range; grid indexes are relative to this. */
+  origin: { r: number; c: number };
+  /** Header row index within the used range. */
+  headerRow: number;
+}
 
 export interface Mapping {
+  /** First sheet imported (kept for older cycles that have no `sheets`). */
   sheetName: string;
-  /** 0-based index of the header row in the sheet. */
+  /** 0-based index of the header row within the first sheet's used range. */
   headerRow: number;
-  /** Header cells in sheet order, made unique. */
+  /** Header cells in sheet order, made unique. Every imported sheet has this same header. */
   headers: string[];
   /** Workbook column header for each portal field. */
   fields: Partial<Record<FieldKey, string>>;
+  /** Every sheet imported with this layout. A case's rowNum encodes its sheet index (see ROW_BLOCK). */
+  sheets?: SheetLayout[];
+  /** Take Module from the sheet name (used when cases are split into one sheet per module). */
+  moduleFromSheet?: boolean;
+  /** Text the workbook uses for each portal status; written back on export. Blank means an empty cell. */
+  statusLabels?: Partial<Record<CaseStatus, string>>;
 }
 
 export interface MappingTemplate {
   name: string;
-  mapping: Pick<Mapping, 'fields'>;
+  mapping: Pick<Mapping, 'fields'> & Partial<Pick<Mapping, 'statusLabels' | 'moduleFromSheet'>>;
 }
 
 export interface Cycle {

@@ -31,8 +31,14 @@ replaces the `<!--UAT_CONFIG-->` comment with the RESTlet URL. Rebuild before ev
 
 ## Export
 
-The export starts from the original workbook stored at import (so other sheets and title rows are
-kept), rewrites the cases sheet from portal data, adds `Status`/`Actual Result` columns if the workbook
-had none, a `Latest Comment` column, a `Comments` sheet, and a hidden `_uat_portal` sheet with the cycle
-ID. Re-importing that file updates the same cycle. SheetJS Community Edition does not keep cell
-styling (fonts, fills); values, other sheets, column widths and title-row merges are kept.
+Import reads with SheetJS. It recognises common column names, skips section heading rows (a label in
+the Case ID column and nothing else), and can import every sheet that shares one layout as a single
+cycle (Case IDs become `<sheet> <No.>`, Module can come from the sheet name). Status words are
+translated per cycle; the defaults come from the workbook's Results dropdown.
+
+Export uses ExcelJS to write results into the original workbook stored at import, cell by cell, so
+styling, dropdowns, merged cells, section rows, other sheets and formulas are kept (formulas
+recalculate when the file opens). It writes statuses in the workbook's own words, fills the mapped
+Comments column (or adds `Latest Comment`), adds a `Comments` sheet and a hidden `_uat_portal` sheet
+with the cycle ID. Re-importing that file updates the same cycle. Without a stored original it builds
+a plain workbook with the same columns.

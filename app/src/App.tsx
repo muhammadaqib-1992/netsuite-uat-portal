@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createApi, type Api } from './api/api';
 import type { Bootstrap, CaseDetail, CaseSummary, Cycle, Level } from './types';
-import { buildExport, downloadWorkbook, exportFileName } from './lib/excel';
+import { downloadBytes, exportFileName } from './lib/excel';
+import { buildExportWorkbook } from './lib/export';
 import { CaseFilters, CaseTable, applyFilters, emptyFilters, type Filters } from './components/CaseList';
 import { CaseDetail as CaseDetailView } from './components/CaseDetail';
 import { Dashboard } from './components/Dashboard';
@@ -160,12 +161,12 @@ function Portal({ api, boot }: { api: Api; boot: Bootstrap }) {
       const comments = await api.exportComments(cycle.id);
       const original = full.hasWorkbook ? await api.workbook(cycle.id) : null;
       setExporting('Writing workbook…');
-      const wb = buildExport(full, all, comments, original?.base64 ?? null);
+      const bytes = await buildExportWorkbook(full, all, comments, original?.base64 ?? null);
       if (__DEMO__) {
         toast(`Built the export: ${all.length} cases and ${comments.length} comments in the workbook's own layout. Downloads are turned off on this demo page.`);
         return;
       }
-      downloadWorkbook(wb, exportFileName(full));
+      downloadBytes(bytes, exportFileName(full));
       toast(`Exported ${all.length} cases`);
     } catch (e) {
       toast(`Export failed: ${errorText(e)}`, 'error');

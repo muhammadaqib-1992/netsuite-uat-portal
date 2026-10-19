@@ -1,6 +1,6 @@
 # Requirements — NetSuite UAT Portal
 
-Version 0.2 · decisions D1–D5, D7, D8 recorded · 2026-10-19
+Version 0.3 · decisions D1–D5, D7–D10 recorded · 2026-10-19
 
 ## 1. Problem
 
@@ -38,11 +38,16 @@ project (`customrole_uat_tester`) plus permission on the custom records.
   in the same layout.
 - **R5** Import creates one **UAT Cycle** and one **UAT Test Case** per row, saved in batches
   (about 50 rows per request) to stay inside NetSuite governance limits.
+- **R5a** A workbook may split cases across several sheets with the same columns (often one per
+  module, plus a summary sheet). Those sheets import together as one cycle; Case IDs are prefixed with
+  the sheet name and Module can come from the sheet name. Section heading rows are skipped.
+- **R5b** Each cycle stores the workbook's own status words (read from its Results dropdown where
+  there is one) and translates them on import and export.
 
 ### Execution
 - **R6** Case list with filters (module, status, tester) and search.
 - **R7** Case detail: steps, expected result, pre-conditions and test data.
-- **R8** Per case record: Status (Not Started / In Progress / Pass / Fail / Blocked / N/A),
+- **R8** Per case record: Status (Not Started / In Progress / Pass / Fail / Retest / Blocked / N/A),
   Actual Result, Tester (logged-in user, automatic), Executed On (automatic), Defect Ref.
 - **R9** Fail or Blocked requires an Actual Result and a reason; the reason is posted as a comment.
 - **R10** Status is recorded **per case only** (decided D1). Steps are display text.
@@ -67,7 +72,9 @@ project (`customrole_uat_tester`) plus permission on the custom records.
 - **R20** *(Open)* Sign-off per module or cycle by the UAT Lead (name and date).
 
 ### Export
-- **R21** Export at any time to `.xlsx` in the original layout with status columns updated.
+- **R21** Export at any time to `.xlsx` in the original layout with status columns updated. Results
+  are written into the original file in place, keeping its styling, dropdowns, merged cells and
+  formulas.
 - **R22** Main sheet gets a "Latest Comment" column; a new **Comments** sheet lists every comment
   (Case ID, Comment ID, Reply To, Author, Date, Type, Comment, Attachment name).
 - **R23** Re-importing an exported workbook updates the same cycle without data loss.
@@ -120,3 +127,5 @@ Token-Based Authentication (for SDF deployment).
 | D6 | Module / cycle sign-off in v1 | Later (default) | Open |
 | D7 | Test account | All required features enabled | Decided 2026-10-19 |
 | D8 | Sample UAT workbook | Build a dummy workbook in `sample-data/` | Decided 2026-10-19 |
+| D9 | Statuses beyond the first six | **Add Retest** (a fix is ready to test again). Other workbook words map to the seven statuses per cycle; Required Discussion maps to Blocked | Decided 2026-10-19 |
+| D10 | Case title when a layout has both Scenario and Step Name | **Step Name** is the case title; Scenario is kept as an extra column | Decided 2026-10-19 |

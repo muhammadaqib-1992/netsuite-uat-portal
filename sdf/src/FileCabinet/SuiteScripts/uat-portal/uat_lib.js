@@ -60,7 +60,7 @@ define(['N/search', 'N/record', 'N/runtime'], (search, record, runtime) => {
     FILE: 'custrecord_uat_cmt_file',
   };
 
-  const CASE_STATUSES = ['Not Started', 'In Progress', 'Pass', 'Fail', 'Blocked', 'N/A'];
+  const CASE_STATUSES = ['Not Started', 'In Progress', 'Pass', 'Fail', 'Retest', 'Blocked', 'N/A'];
   const CYCLE_STATUSES = ['Planned', 'Active', 'Closed'];
   const COMMENT_TYPES = ['General', 'Clarification', 'Fail Reason', 'Retest Note', 'Resolution'];
 

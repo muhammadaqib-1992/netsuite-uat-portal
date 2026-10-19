@@ -5,7 +5,7 @@ import { ApiError, type Api } from './api';
 import type { CaseDetail, CaseStatus, Comment, Cycle, FileData, Level, Mapping, MappingTemplate, User } from '../types';
 import { DEMO_CYCLES, DEMO_USER, PEOPLE, type DemoComment } from './demo-data';
 
-const STATUSES: CaseStatus[] = ['Not Started', 'In Progress', 'Pass', 'Fail', 'Blocked', 'N/A'];
+const STATUSES: CaseStatus[] = ['Not Started', 'In Progress', 'Pass', 'Fail', 'Retest', 'Blocked', 'N/A'];
 const EDIT_WINDOW_MS = 15 * 60 * 1000;
 const HOUR = 3600 * 1000;
 
