@@ -1,0 +1,45 @@
+<suitelet scriptid="customscript_uat_portal_sl">
+  <description>Serves the UAT portal app.</description>
+  <isinactive>F</isinactive>
+  <name>UAT Portal</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/uat-portal/uat_portal_sl.js]</scriptfile>
+  <scriptcustomfields>
+    <scriptcustomfield scriptid="custscript_uat_app_path">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultvalue>SuiteScripts/uat-portal/app/index.html</defaultvalue>
+      <description></description>
+      <displaytype>NORMAL</displaytype>
+      <encryptatrest>F</encryptatrest>
+      <fieldtype>TEXT</fieldtype>
+      <help>File Cabinet path of the built React app.</help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>App index.html Path</label>
+      <rolerestrict>F</rolerestrict>
+      <searchlevel>2</searchlevel>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+  </scriptcustomfields>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_uat_portal_sl">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <eventtype></eventtype>
+      <isdeployed>T</isdeployed>
+      <isonline>F</isonline>
+      <loglevel>ERROR</loglevel>
+      <runasrole></runasrole>
+      <status>RELEASED</status>
+      <title>UAT Portal</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</suitelet>

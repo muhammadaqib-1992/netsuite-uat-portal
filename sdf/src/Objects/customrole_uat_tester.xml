@@ -1,0 +1,16 @@
+<role scriptid="customrole_uat_tester">
+  <centertype>BASIC</centertype>
+  <employeerestriction>NONE</employeerestriction>
+  <employeeviewingallowed>F</employeeviewingallowed>
+  <issalesrole>F</issalesrole>
+  <issupportrole>F</issupportrole>
+  <iswebserviceonlyrole>F</iswebserviceonlyrole>
+  <name>UAT Tester</name>
+  <restricttimeandexpenses>F</restricttimeandexpenses>
+  <permissions>
+    <permission>
+      <permkey>LIST_FILECABINET</permkey>
+      <permlevel>EDIT</permlevel>
+    </permission>
+  </permissions>
+</role>

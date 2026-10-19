@@ -7,8 +7,8 @@ at any time. It replaces sharing a UAT spreadsheet back and forth.
 Built to be **reusable across NetSuite projects**: nothing in this repo is specific to one client.
 Client-specific values are set per account through script parameters after deployment.
 
-> **Status:** requirements and design. No code yet. See [docs/requirements.md](docs/requirements.md)
-> and the open decisions at the end of it.
+> **Status:** v0.1 code complete, not yet deployed to a NetSuite account. Sign-off (R20, D6) and
+> Jira defect creation (R26) are not built. See [docs/requirements.md](docs/requirements.md).
 
 ## How it works
 

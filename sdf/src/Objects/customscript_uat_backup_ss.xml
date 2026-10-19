@@ -1,0 +1,62 @@
+<scheduledscript scriptid="customscript_uat_backup_ss">
+  <description>Writes a CSV snapshot of each active UAT cycle to the File Cabinet.</description>
+  <isinactive>F</isinactive>
+  <name>UAT Portal Nightly Backup</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/uat-portal/uat_backup_ss.js]</scriptfile>
+  <scriptcustomfields>
+    <scriptcustomfield scriptid="custscript_uat_bk_data_folder">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultvalue></defaultvalue>
+      <description></description>
+      <displaytype>NORMAL</displaytype>
+      <encryptatrest>F</encryptatrest>
+      <fieldtype>INTEGER</fieldtype>
+      <help>Same folder as the API data folder parameter. Blank: "UAT Portal Data".</help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>Data Folder (internal ID)</label>
+      <rolerestrict>F</rolerestrict>
+      <searchlevel>2</searchlevel>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+    <scriptcustomfield scriptid="custscript_uat_bk_after">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultvalue></defaultvalue>
+      <description></description>
+      <displaytype>NORMAL</displaytype>
+      <encryptatrest>F</encryptatrest>
+      <fieldtype>INTEGER</fieldtype>
+      <help>Set automatically when the backup reschedules itself. Leave blank.</help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>Continue After Cycle</label>
+      <rolerestrict>F</rolerestrict>
+      <searchlevel>2</searchlevel>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+  </scriptcustomfields>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_uat_backup_ss">
+      <isdeployed>T</isdeployed>
+      <loglevel>AUDIT</loglevel>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <startdate>2026-11-01</startdate>
+          <starttime>02:00:00Z</starttime>
+        </daily>
+      </recurrence>
+      <status>SCHEDULED</status>
+      <title>UAT Portal Nightly Backup</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>
