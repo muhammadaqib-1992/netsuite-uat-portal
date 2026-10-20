@@ -1,5 +1,5 @@
 <manifest projecttype="ACCOUNTCUSTOMIZATION">
-  <projectname>uat-portal</projectname>
+  <projectname>f3u-uat-portal</projectname>
   <frameworkversion>1.0</frameworkversion>
   <dependencies>
     <features>

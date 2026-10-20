@@ -25,7 +25,7 @@ Must be reusable across NetSuite projects without code changes.
 | **Implementation team** (QA / consultant) | Everything, plus import workbooks, manage cycles and their screenshot/email switches |
 
 All users sign in with their NetSuite login. Access is controlled by a NetSuite role shipped with the
-project (`customrole_uat_tester`) plus permission on the custom records.
+project (`customrole_f3u_uat_tester`) plus permission on the custom records.
 
 ## 4. Functional requirements
 
@@ -90,7 +90,7 @@ project (`customrole_uat_tester`) plus permission on the custom records.
 ### Feature switches
 - **R27** Screenshots and email alerts each have an on/off switch:
   - **Account default:** checkbox script parameters on the RESTlet deployment
-    (`custscript_uat_enable_screenshots`, `custscript_uat_enable_email`), set by the NetSuite admin.
+    (`custscript_f3u_uat_enable_screenshots`, `custscript_f3u_uat_enable_email`), set by the NetSuite admin.
   - **Per cycle:** matching checkboxes on the UAT Cycle, editable by the implementation team in the
     portal; a new cycle copies the account default.
   - When screenshots are off the upload control is hidden and the API rejects uploads. When email is
@@ -102,11 +102,11 @@ project (`customrole_uat_tester`) plus permission on the custom records.
 ## 5. Non-functional requirements
 
 - **NF1** Runs entirely inside the NetSuite account; no external hosting or database.
-- **NF2** Isolated: only its own `customrecord_uat_*` records and its own scripts. No scripts or
+- **NF2** Isolated: only its own `customrecord_f3u_uat_*` records and its own scripts. No scripts or
   workflows on standard records, so it cannot affect the system under test.
 - **NF3** Portable: everything referenced by script ID; account-specific values are script
   parameters; installs on any account with the required features.
-- **NF4** Removable: the SDF project can be uninstalled after results are exported.
+- **NF4** Removable: every object carries the `f3u_uat` prefix and the project can be removed after results are exported (steps in `docs/uninstall.md`).
 - **NF5** Works in current Chrome and Edge; usable by non-technical business users.
 - **NF6** Handles cycles of up to a few thousand cases.
 

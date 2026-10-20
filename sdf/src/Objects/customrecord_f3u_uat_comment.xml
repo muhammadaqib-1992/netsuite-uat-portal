@@ -1,4 +1,4 @@
-<customrecordtype scriptid="customrecord_uat_comment">
+<customrecordtype scriptid="customrecord_f3u_uat_comment">
   <accesstype>USEPERMISSIONLIST</accesstype>
   <allowattachments>F</allowattachments>
   <allowinlinedeleting>F</allowinlinedeleting>
@@ -33,7 +33,7 @@
   <showownerallowchange>F</showownerallowchange>
   <showowneronlist>F</showowneronlist>
   <customrecordcustomfields>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_case">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_case">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -51,11 +51,11 @@
       <onparentdelete>NO_ACTION</onparentdelete>
       <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
-      <selectrecordtype>[scriptid=customrecord_uat_case]</selectrecordtype>
+      <selectrecordtype>[scriptid=customrecord_f3u_uat_case]</selectrecordtype>
       <showinlist>T</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_parent">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_parent">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -73,11 +73,11 @@
       <onparentdelete>SET_NULL</onparentdelete>
       <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
-      <selectrecordtype>[scriptid=customrecord_uat_comment]</selectrecordtype>
+      <selectrecordtype>[scriptid=customrecord_f3u_uat_comment]</selectrecordtype>
       <showinlist>F</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_type">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_type">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -99,7 +99,7 @@
       <showinlist>T</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_text">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_text">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -121,7 +121,7 @@
       <showinlist>F</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_author">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_author">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -143,7 +143,7 @@
       <showinlist>T</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_author_name">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_author_name">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -165,7 +165,7 @@
       <showinlist>F</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_by_team">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_by_team">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -187,7 +187,7 @@
       <showinlist>F</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_posted">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_posted">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -209,7 +209,7 @@
       <showinlist>T</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_edited">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_edited">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -231,7 +231,7 @@
       <showinlist>F</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_status">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_status">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -253,7 +253,7 @@
       <showinlist>F</showinlist>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_uat_cmt_file">
+    <customrecordcustomfield scriptid="custrecord_f3u_uat_cmt_file">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -279,7 +279,7 @@
   <permissions>
     <permission>
       <permittedlevel>EDIT</permittedlevel>
-      <permittedrole>[scriptid=customrole_uat_tester]</permittedrole>
+      <permittedrole>[scriptid=customrole_f3u_uat_tester]</permittedrole>
     </permission>
   </permissions>
 </customrecordtype>

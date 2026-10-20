@@ -37,11 +37,14 @@ Full design: [docs/architecture.md](docs/architecture.md).
 
 Each target account gets its own SuiteCloud authentication. Always run
 `suitecloud project:validate --server` against the target before `suitecloud project:deploy`, and
-record every deployment in [docs/deployments.md](docs/deployments.md).
+record every deployment in [docs/deployments.md](docs/deployments.md). To remove the portal from an account, follow
+[docs/uninstall.md](docs/uninstall.md).
 
 ## Rules
 
 - Reference records, fields, scripts and roles by **script ID**, never by internal ID.
+- Every NetSuite object ID, script file and folder starts with **`f3u_uat`**, so the portal's objects
+  are easy to find and remove.
 - No hard-coded account values. Anything that differs per account is a script parameter.
 - Only dummy data in non-client accounts. Client workbooks never leave the client's account.
 - Tag every release (`v0.1.0`, ...) and log which version is installed where.

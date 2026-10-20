@@ -1,4 +1,4 @@
-<restlet scriptid="customscript_uat_api_rl">
+<restlet scriptid="customscript_f3u_uat_api_rl">
   <description>Data API for the UAT portal app.</description>
   <isinactive>F</isinactive>
   <name>UAT Portal API</name>
@@ -6,9 +6,9 @@
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
   <notifyuser>F</notifyuser>
-  <scriptfile>[/SuiteScripts/uat-portal/uat_api_rl.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/f3u_uat_portal/f3u_uat_api_rl.js]</scriptfile>
   <scriptcustomfields>
-    <scriptcustomfield scriptid="custscript_uat_enable_screenshots">
+    <scriptcustomfield scriptid="custscript_f3u_uat_enable_screenshots">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -26,7 +26,7 @@
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
-    <scriptcustomfield scriptid="custscript_uat_enable_email">
+    <scriptcustomfield scriptid="custscript_f3u_uat_enable_email">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -44,7 +44,7 @@
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
-    <scriptcustomfield scriptid="custscript_uat_team_roles">
+    <scriptcustomfield scriptid="custscript_f3u_uat_team_roles">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -62,7 +62,7 @@
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
-    <scriptcustomfield scriptid="custscript_uat_lead_roles">
+    <scriptcustomfield scriptid="custscript_f3u_uat_lead_roles">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -80,7 +80,7 @@
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
-    <scriptcustomfield scriptid="custscript_uat_data_folder">
+    <scriptcustomfield scriptid="custscript_f3u_uat_data_folder">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -90,7 +90,7 @@
       <displaytype>NORMAL</displaytype>
       <encryptatrest>F</encryptatrest>
       <fieldtype>INTEGER</fieldtype>
-      <help>File Cabinet folder for evidence, workbooks and backups. Blank: a top-level "UAT Portal Data" folder is created.</help>
+      <help>File Cabinet folder for evidence, workbooks and backups. Blank: a top-level "F3U UAT Portal Data" folder is created.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>Data Folder (internal ID)</label>
@@ -100,7 +100,7 @@
     </scriptcustomfield>
   </scriptcustomfields>
   <scriptdeployments>
-    <scriptdeployment scriptid="customdeploy_uat_api_rl">
+    <scriptdeployment scriptid="customdeploy_f3u_uat_api_rl">
       <allemployees>F</allemployees>
       <allpartners>F</allpartners>
       <allroles>T</allroles>

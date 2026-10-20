@@ -11,14 +11,14 @@ account ID, internal ID, URL or client data in code, config, docs or sample file
 ## Stack
 
 - `app/` — React 18 + Vite + TypeScript. SheetJS for Excel. Build output goes to
-  `sdf/src/FileCabinet/SuiteScripts/uat-portal/app/` (git-ignored, rebuilt before deploy).
+  `sdf/src/FileCabinet/SuiteScripts/f3u_uat_portal/app/` (git-ignored, rebuilt before deploy).
 - `sdf/` — SuiteCloud **account customization project**. SuiteScript 2.1 only.
-  - Suitelet `customscript_uat_portal_sl` serves the React `index.html`.
-  - RESTlet `customscript_uat_api_rl` is the only data API (load/save cases, batched import,
+  - Suitelet `customscript_f3u_uat_portal_sl` serves the React `index.html`.
+  - RESTlet `customscript_f3u_uat_api_rl` is the only data API (load/save cases, batched import,
     comments, uploads, export data, email alerts).
-  - Scheduled script `customscript_uat_backup_ss` writes nightly snapshots to the File Cabinet.
-  - Custom records `customrecord_uat_cycle`, `customrecord_uat_case`, `customrecord_uat_comment`;
-    role `customrole_uat_tester`.
+  - Scheduled script `customscript_f3u_uat_backup_ss` writes nightly snapshots to the File Cabinet.
+  - Custom records `customrecord_f3u_uat_cycle`, `customrecord_f3u_uat_case`, `customrecord_f3u_uat_comment`;
+    role `customrole_f3u_uat_tester`.
 - `sample-data/` — dummy workbooks named `sample-*.xlsx`, generic NetSuite flows (order to cash,
   procure to pay, etc.). Invented data only.
 
@@ -35,6 +35,10 @@ account ID, internal ID, URL or client data in code, config, docs or sample file
 ## Rules
 
 - Reference every record, field, script and role by **script ID**, never internal ID.
+- Every NetSuite object ID starts with `f3u_uat` (`customrecord_f3u_uat_…`, `custrecord_f3u_uat_…`,
+  `customscript_f3u_uat_…`, `custscript_f3u_uat_…`, `customrole_f3u_uat_…`); script files are
+  `f3u_uat_*.js` in `SuiteScripts/f3u_uat_portal/`. IDs stay lowercase and within 40 characters.
+- Removal steps live in `docs/uninstall.md`; keep its inventory in step with new objects.
 - Account-specific values are script parameters, never hard-coded.
 - Every save checks last-modified to prevent silent overwrites; imports are batched (~50 rows per
   call) and check remaining governance.

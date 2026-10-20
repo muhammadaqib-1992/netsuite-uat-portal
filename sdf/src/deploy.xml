@@ -1,6 +1,6 @@
 <deploy>
   <files>
-    <path>~/FileCabinet/SuiteScripts/uat-portal/*</path>
+    <path>~/FileCabinet/SuiteScripts/f3u_uat_portal/*</path>
   </files>
   <objects>
     <path>~/Objects/*</path>

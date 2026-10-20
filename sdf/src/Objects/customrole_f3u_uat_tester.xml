@@ -1,4 +1,4 @@
-<role scriptid="customrole_uat_tester">
+<role scriptid="customrole_f3u_uat_tester">
   <centertype>BASIC</centertype>
   <employeerestriction>NONE</employeerestriction>
   <employeeviewingallowed>F</employeeviewingallowed>

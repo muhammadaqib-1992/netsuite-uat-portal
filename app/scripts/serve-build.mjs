@@ -10,7 +10,7 @@ import { build } from 'esbuild';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const appDir = path.resolve(here, '..');
-const indexFile = path.resolve(appDir, '../sdf/src/FileCabinet/SuiteScripts/uat-portal/app/index.html');
+const indexFile = path.resolve(appDir, '../sdf/src/FileCabinet/SuiteScripts/f3u_uat_portal/app/index.html');
 const samplesDir = path.resolve(appDir, '../sample-data');
 const captureDir = path.resolve(appDir, 'node_modules/.cache/captures');
 const port = Number(process.env.PORT) || 4173;

@@ -23,9 +23,9 @@ Proposal pages (private; share from each page's Share menu):
 
 | Record | Script ID | Key fields |
 |---|---|---|
-| UAT Cycle | `customrecord_uat_cycle` | name, environment, start/end date, status, owner, source file, column mapping (JSON), screenshots enabled, email alerts enabled |
-| UAT Test Case | `customrecord_uat_case` | cycle, case ID, module, scenario, pre-conditions, steps, expected result, status, actual result, tester, executed on, defect ref, evidence file, original row (JSON) |
-| UAT Comment | `customrecord_uat_comment` | case, text, author, posted on, type, reply to (parent comment, one level), attachment, status at time |
+| UAT Cycle | `customrecord_f3u_uat_cycle` | name, environment, start/end date, status, owner, source file, column mapping (JSON), screenshots enabled, email alerts enabled |
+| UAT Test Case | `customrecord_f3u_uat_case` | cycle, case ID, module, scenario, pre-conditions, steps, expected result, status, actual result, tester, executed on, defect ref, evidence file, original row (JSON) |
+| UAT Comment | `customrecord_f3u_uat_comment` | case, text, author, posted on, type, reply to (parent comment, one level), attachment, status at time |
 
 Status is per case only (no step-result record). Field IDs are finalised with the sample workbook.
 
@@ -33,26 +33,26 @@ Status is per case only (no step-result record). Field IDs are finalised with th
 
 | Switch | Account default (script parameter on the RESTlet deployment) | Per cycle (UAT Cycle checkbox) |
 |---|---|---|
-| Screenshots | `custscript_uat_enable_screenshots` | `custrecord_uat_cycle_screenshots` |
-| Email alerts | `custscript_uat_enable_email` | `custrecord_uat_cycle_email` |
+| Screenshots | `custscript_f3u_uat_enable_screenshots` | `custrecord_f3u_uat_cycle_screenshots` |
+| Email alerts | `custscript_f3u_uat_enable_email` | `custrecord_f3u_uat_cycle_email` |
 
 A new cycle copies the account default. The API enforces the switch, not just the UI.
 
 ## Implementation notes (v0.1)
 
-- **Field IDs** are defined in `sdf/src/FileCabinet/SuiteScripts/uat-portal/uat_lib.js` and the
-  `sdf/src/Objects/customrecord_uat_*.xml` files. Statuses and comment types are text fields validated
+- **Field IDs** are defined in `sdf/src/FileCabinet/SuiteScripts/f3u_uat_portal/f3u_uat_lib.js` and the
+  `sdf/src/Objects/customrecord_f3u_uat_*.xml` files. Statuses and comment types are text fields validated
   by the API (no custom lists, so nothing depends on list-value internal IDs).
-- **Conflict check (R11):** each case has a `custrecord_uat_case_version` counter. The app sends the
+- **Conflict check (R11):** each case has a `custrecord_f3u_uat_case_version` counter. The app sends the
   version it loaded; the RESTlet rejects the save with `CONFLICT` if it changed, then increments it.
   Optimistic locking is also on for all three record types.
 - **Who is who:** access level comes from the user's role script ID matched against the RESTlet
-  parameters `custscript_uat_team_roles` and `custscript_uat_lead_roles`; everyone else is a tester.
+  parameters `custscript_f3u_uat_team_roles` and `custscript_f3u_uat_lead_roles`; everyone else is a tester.
 - **Unanswered comments (R18):** a top-level comment by a non-team user with no reply from the team.
 - **Re-import (R23):** cases match by Case ID within the cycle. Descriptive fields update; a status or
   result from the workbook is only applied when the portal case is still Not Started.
-- **Files:** evidence, original workbooks, mapping templates and backups live in a "UAT Portal Data"
-  folder (or the folder in `custscript_uat_data_folder`). The app reads images through the API, so
+- **Files:** evidence, original workbooks, mapping templates and backups live in a "F3U UAT Portal Data"
+  folder (or the folder in `custscript_f3u_uat_data_folder`). The app reads images through the API, so
   testers never need direct File Cabinet URLs.
 - **Backup (R24):** CSV (cases + comments) per Active cycle per night; reschedules itself if
   governance runs low.

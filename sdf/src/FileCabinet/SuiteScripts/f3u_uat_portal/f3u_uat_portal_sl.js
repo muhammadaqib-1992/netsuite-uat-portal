@@ -7,11 +7,11 @@
  * @NModuleScope SameAccount
  */
 define(['N/file', 'N/url', 'N/runtime'], (file, url, runtime) => {
-  const DEFAULT_APP_PATH = 'SuiteScripts/uat-portal/app/index.html';
+  const DEFAULT_APP_PATH = 'SuiteScripts/f3u_uat_portal/app/index.html';
   const PLACEHOLDER = '<!--UAT_CONFIG-->';
 
   function onRequest(ctx) {
-    const appPath = runtime.getCurrentScript().getParameter({ name: 'custscript_uat_app_path' }) || DEFAULT_APP_PATH;
+    const appPath = runtime.getCurrentScript().getParameter({ name: 'custscript_f3u_uat_app_path' }) || DEFAULT_APP_PATH;
     let html;
     try {
       html = file.load({ id: appPath }).getContents();
@@ -22,7 +22,7 @@ define(['N/file', 'N/url', 'N/runtime'], (file, url, runtime) => {
       return;
     }
     const config = {
-      apiUrl: url.resolveScript({ scriptId: 'customscript_uat_api_rl', deploymentId: 'customdeploy_uat_api_rl' }),
+      apiUrl: url.resolveScript({ scriptId: 'customscript_f3u_uat_api_rl', deploymentId: 'customdeploy_f3u_uat_api_rl' }),
     };
     // Escape "<" so the JSON cannot close the script tag.
     const json = JSON.stringify(config).replace(/</g, '\\u003c');

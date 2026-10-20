@@ -2,7 +2,7 @@
 node_modules/
 app/dist/
 # React build output copied into the SDF File Cabinet at build time
-sdf/src/FileCabinet/SuiteScripts/uat-portal/app/
+sdf/src/FileCabinet/SuiteScripts/f3u_uat_portal/app/
 
 # SuiteCloud per-user auth and local settings
 sdf/project.json

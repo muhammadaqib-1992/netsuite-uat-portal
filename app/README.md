@@ -17,7 +17,7 @@ In dev mode add `?level=tester` or `?level=lead` to the URL to see the app as th
 ## Build output
 
 `npm run build` writes a single self-contained `index.html` (JS and CSS inlined) to
-`../sdf/src/FileCabinet/SuiteScripts/uat-portal/app/` (git-ignored). The Suitelet serves that file and
+`../sdf/src/FileCabinet/SuiteScripts/f3u_uat_portal/app/` (git-ignored). The Suitelet serves that file and
 replaces the `<!--UAT_CONFIG-->` comment with the RESTlet URL. Rebuild before every deploy.
 
 ## Layout

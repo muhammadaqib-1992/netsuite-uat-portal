@@ -8,7 +8,7 @@
  * @NScriptType Restlet
  * @NModuleScope SameAccount
  */
-define(['N/record', 'N/search', 'N/runtime', 'N/file', 'N/email', 'N/url', 'N/format', 'N/log', './uat_lib'], (
+define(['N/record', 'N/search', 'N/runtime', 'N/file', 'N/email', 'N/url', 'N/format', 'N/log', './f3u_uat_lib'], (
   record,
   search,
   runtime,
@@ -22,11 +22,11 @@ define(['N/record', 'N/search', 'N/runtime', 'N/file', 'N/email', 'N/url', 'N/fo
   const { REC, CYCLE, CASE, CMT } = lib;
 
   const PARAM = {
-    SCREENSHOTS: 'custscript_uat_enable_screenshots',
-    EMAIL: 'custscript_uat_enable_email',
-    TEAM_ROLES: 'custscript_uat_team_roles',
-    LEAD_ROLES: 'custscript_uat_lead_roles',
-    DATA_FOLDER: 'custscript_uat_data_folder',
+    SCREENSHOTS: 'custscript_f3u_uat_enable_screenshots',
+    EMAIL: 'custscript_f3u_uat_enable_email',
+    TEAM_ROLES: 'custscript_f3u_uat_team_roles',
+    LEAD_ROLES: 'custscript_f3u_uat_lead_roles',
+    DATA_FOLDER: 'custscript_f3u_uat_data_folder',
   };
 
   const EDIT_WINDOW_MS = 15 * 60 * 1000;
@@ -429,7 +429,7 @@ define(['N/record', 'N/search', 'N/runtime', 'N/file', 'N/email', 'N/url', 'N/fo
 
   function portalLink(cycleId, caseId) {
     try {
-      const path = url.resolveScript({ scriptId: 'customscript_uat_portal_sl', deploymentId: 'customdeploy_uat_portal_sl' });
+      const path = url.resolveScript({ scriptId: 'customscript_f3u_uat_portal_sl', deploymentId: 'customdeploy_f3u_uat_portal_sl' });
       const domain = url.resolveDomain({ hostType: url.HostType.APPLICATION });
       return `https://${domain}${path}#cycle=${cycleId}&case=${caseId}`;
     } catch (e) {

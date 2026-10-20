@@ -1,13 +1,13 @@
-<scheduledscript scriptid="customscript_uat_backup_ss">
+<scheduledscript scriptid="customscript_f3u_uat_backup_ss">
   <description>Writes a CSV snapshot of each active UAT cycle to the File Cabinet.</description>
   <isinactive>F</isinactive>
   <name>UAT Portal Nightly Backup</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/uat-portal/uat_backup_ss.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/f3u_uat_portal/f3u_uat_backup_ss.js]</scriptfile>
   <scriptcustomfields>
-    <scriptcustomfield scriptid="custscript_uat_bk_data_folder">
+    <scriptcustomfield scriptid="custscript_f3u_uat_bk_data_folder">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -17,7 +17,7 @@
       <displaytype>NORMAL</displaytype>
       <encryptatrest>F</encryptatrest>
       <fieldtype>INTEGER</fieldtype>
-      <help>Same folder as the API data folder parameter. Blank: "UAT Portal Data".</help>
+      <help>Same folder as the API data folder parameter. Blank: "F3U UAT Portal Data".</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>Data Folder (internal ID)</label>
@@ -25,7 +25,7 @@
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
-    <scriptcustomfield scriptid="custscript_uat_bk_after">
+    <scriptcustomfield scriptid="custscript_f3u_uat_bk_after">
       <accesslevel>2</accesslevel>
       <applyformatting>F</applyformatting>
       <checkspelling>F</checkspelling>
@@ -45,7 +45,7 @@
     </scriptcustomfield>
   </scriptcustomfields>
   <scriptdeployments>
-    <scriptdeployment scriptid="customdeploy_uat_backup_ss">
+    <scriptdeployment scriptid="customdeploy_f3u_uat_backup_ss">
       <isdeployed>T</isdeployed>
       <loglevel>AUDIT</loglevel>
       <recurrence>

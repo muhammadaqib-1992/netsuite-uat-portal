@@ -7,7 +7,7 @@
  * @NScriptType ScheduledScript
  * @NModuleScope SameAccount
  */
-define(['N/search', 'N/file', 'N/runtime', 'N/task', 'N/log', './uat_lib'], (search, file, runtime, task, log, lib) => {
+define(['N/search', 'N/file', 'N/runtime', 'N/task', 'N/log', './f3u_uat_lib'], (search, file, runtime, task, log, lib) => {
   const { REC, CYCLE, CASE, CMT } = lib;
   const MIN_UNITS = 1000;
 
@@ -107,8 +107,8 @@ define(['N/search', 'N/file', 'N/runtime', 'N/task', 'N/log', './uat_lib'], (sea
 
   function execute() {
     const script = runtime.getCurrentScript();
-    const after = Number(script.getParameter({ name: 'custscript_uat_bk_after' })) || 0;
-    const folders = lib.dataFolders(script.getParameter({ name: 'custscript_uat_bk_data_folder' }));
+    const after = Number(script.getParameter({ name: 'custscript_f3u_uat_bk_after' })) || 0;
+    const folders = lib.dataFolders(script.getParameter({ name: 'custscript_f3u_uat_bk_data_folder' }));
 
     const cycles = lib
       .searchAll(
@@ -128,7 +128,7 @@ define(['N/search', 'N/file', 'N/runtime', 'N/task', 'N/log', './uat_lib'], (sea
             taskType: task.TaskType.SCHEDULED_SCRIPT,
             scriptId: script.id,
             deploymentId: script.deploymentId,
-            params: { custscript_uat_bk_after: prev },
+            params: { custscript_f3u_uat_bk_after: prev },
           })
           .submit();
         log.audit({ title: 'UAT backup rescheduled', details: `Continuing after cycle ${prev}` });

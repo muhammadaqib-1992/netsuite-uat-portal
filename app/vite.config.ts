@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), viteSingleFile()],
     define: { __DEMO__: JSON.stringify(demo) },
     build: {
-      outDir: demo ? 'dist/demo' : '../sdf/src/FileCabinet/SuiteScripts/uat-portal/app',
+      outDir: demo ? 'dist/demo' : '../sdf/src/FileCabinet/SuiteScripts/f3u_uat_portal/app',
       emptyOutDir: true,
       chunkSizeWarningLimit: 2000,
     },
