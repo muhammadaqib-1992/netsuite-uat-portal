@@ -26,6 +26,8 @@ define(['N/record', 'N/search', 'N/runtime', 'N/file', 'N/email', 'N/url', 'N/fo
     EMAIL: 'custscript_f3u_uat_enable_email',
     TEAM_ROLES: 'custscript_f3u_uat_team_roles',
     LEAD_ROLES: 'custscript_f3u_uat_lead_roles',
+    TEAM_EMPLOYEES: 'custscript_f3u_uat_team_employees',
+    LEAD_EMPLOYEES: 'custscript_f3u_uat_lead_employees',
     DATA_FOLDER: 'custscript_f3u_uat_data_folder',
   };
 
@@ -63,7 +65,12 @@ define(['N/record', 'N/search', 'N/runtime', 'N/file', 'N/email', 'N/url', 'N/fo
   const isTrue = (v) => v === true || v === 'T' || v === 'true';
 
   function me() {
-    return lib.currentUser(param(PARAM.TEAM_ROLES) || 'administrator', param(PARAM.LEAD_ROLES));
+    return lib.currentUser({
+      teamEmployees: param(PARAM.TEAM_EMPLOYEES),
+      teamRoles: param(PARAM.TEAM_ROLES),
+      leadEmployees: param(PARAM.LEAD_EMPLOYEES),
+      leadRoles: param(PARAM.LEAD_ROLES),
+    });
   }
 
   function requireTeam(user) {

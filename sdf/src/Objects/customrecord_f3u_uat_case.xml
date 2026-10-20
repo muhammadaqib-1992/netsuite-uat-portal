@@ -1,5 +1,5 @@
 <customrecordtype scriptid="customrecord_f3u_uat_case">
-  <accesstype>USEPERMISSIONLIST</accesstype>
+  <accesstype>NONENEEDED</accesstype>
   <allowattachments>F</allowattachments>
   <allowinlinedeleting>F</allowinlinedeleting>
   <allowinlinedetaching>F</allowinlinedetaching>
@@ -10,10 +10,7 @@
   <allowquicksearch>F</allowquicksearch>
   <allowuiaccess>T</allowuiaccess>
   <description>One row of a UAT workbook and its execution result.</description>
-  <enabledle>F</enabledle>
   <enablekeywords>F</enablekeywords>
-  <enablemailmerge>F</enablemailmerge>
-  <enablenametranslation>F</enablenametranslation>
   <enablenumbering>F</enablenumbering>
   <enableoptimisticlocking>T</enableoptimisticlocking>
   <enablesystemnotes>T</enablesystemnotes>
@@ -83,11 +80,11 @@
       <checkspelling>F</checkspelling>
       <defaultchecked>F</defaultchecked>
       <description></description>
-      <displaytype>INLINE</displaytype>
+      <displaytype>NORMAL</displaytype>
       <encryptatrest>F</encryptatrest>
       <fieldtype>INTEGER</fieldtype>
       <globalsearch>F</globalsearch>
-      <help></help>
+      <help>Set by the UAT portal. Do not edit.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
@@ -325,11 +322,11 @@
       <checkspelling>F</checkspelling>
       <defaultchecked>F</defaultchecked>
       <description></description>
-      <displaytype>INLINE</displaytype>
+      <displaytype>NORMAL</displaytype>
       <encryptatrest>F</encryptatrest>
       <fieldtype>TEXT</fieldtype>
       <globalsearch>F</globalsearch>
-      <help></help>
+      <help>Set by the UAT portal. Do not edit.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
@@ -413,11 +410,11 @@
       <checkspelling>F</checkspelling>
       <defaultchecked>F</defaultchecked>
       <description></description>
-      <displaytype>INLINE</displaytype>
+      <displaytype>NORMAL</displaytype>
       <encryptatrest>F</encryptatrest>
       <fieldtype>CLOBTEXT</fieldtype>
       <globalsearch>F</globalsearch>
-      <help></help>
+      <help>Set by the UAT portal. Do not edit.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
@@ -435,11 +432,11 @@
       <checkspelling>F</checkspelling>
       <defaultchecked>F</defaultchecked>
       <description></description>
-      <displaytype>INLINE</displaytype>
+      <displaytype>NORMAL</displaytype>
       <encryptatrest>F</encryptatrest>
       <fieldtype>INTEGER</fieldtype>
       <globalsearch>F</globalsearch>
-      <help>Incremented on every save from the portal; used to detect conflicting saves.</help>
+      <help>Incremented on every save from the portal; used to detect conflicting saves. Set by the UAT portal. Do not edit.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
@@ -452,10 +449,4 @@
       <storevalue>T</storevalue>
     </customrecordcustomfield>
   </customrecordcustomfields>
-  <permissions>
-    <permission>
-      <permittedlevel>EDIT</permittedlevel>
-      <permittedrole>[scriptid=customrole_f3u_uat_tester]</permittedrole>
-    </permission>
-  </permissions>
 </customrecordtype>

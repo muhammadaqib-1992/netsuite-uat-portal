@@ -17,8 +17,9 @@ account ID, internal ID, URL or client data in code, config, docs or sample file
   - RESTlet `customscript_f3u_uat_api_rl` is the only data API (load/save cases, batched import,
     comments, uploads, export data, email alerts).
   - Scheduled script `customscript_f3u_uat_backup_ss` writes nightly snapshots to the File Cabinet.
-  - Custom records `customrecord_f3u_uat_cycle`, `customrecord_f3u_uat_case`, `customrecord_f3u_uat_comment`;
-    role `customrole_f3u_uat_tester`.
+  - Custom records `customrecord_f3u_uat_cycle`, `customrecord_f3u_uat_case`, `customrecord_f3u_uat_comment`
+    (no permission required). No custom role: employees use their existing roles; team and leads
+    are picked by employee on the RESTlet deployment.
 - `sample-data/` — dummy workbooks named `sample-*.xlsx`, generic NetSuite flows (order to cash,
   procure to pay, etc.). Invented data only.
 
@@ -36,7 +37,7 @@ account ID, internal ID, URL or client data in code, config, docs or sample file
 
 - Reference every record, field, script and role by **script ID**, never internal ID.
 - Every NetSuite object ID starts with `f3u_uat` (`customrecord_f3u_uat_…`, `custrecord_f3u_uat_…`,
-  `customscript_f3u_uat_…`, `custscript_f3u_uat_…`, `customrole_f3u_uat_…`); script files are
+  `customscript_f3u_uat_…`, `custscript_f3u_uat_…` and any future `customrole_f3u_uat_…`); script files are
   `f3u_uat_*.js` in `SuiteScripts/f3u_uat_portal/`. IDs stay lowercase and within 40 characters.
 - Removal steps live in `docs/uninstall.md`; keep its inventory in step with new objects.
 - Account-specific values are script parameters, never hard-coded.

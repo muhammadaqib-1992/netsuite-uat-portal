@@ -105,26 +105,26 @@ define(['N/search', 'N/record', 'N/runtime'], (search, record, runtime) => {
     return out;
   }
 
+  /** A text or multi-select script parameter as a lower-case list (multi-selects may come as arrays). */
   function splitList(value) {
-    return String(value || '')
-      .split(/[,;\s]+/)
-      .map((s) => s.trim().toLowerCase())
-      .filter(Boolean);
+    const parts = Array.isArray(value) ? value : String(value || '').split(/[,;\s\u0005]+/);
+    return parts.map((s) => String(s).trim().toLowerCase()).filter(Boolean);
   }
 
   /**
-   * The signed-in user and their portal access level:
+   * The signed-in employee and their portal access level:
    * 'team' (implementation team), 'lead' (UAT lead) or 'tester'.
-   * Roles are matched by role script ID against comma-separated script parameters.
+   * Employees are matched against the employee-list parameters; role script IDs are an optional
+   * alternative. Everyone else who can sign in is a tester; no special role is needed.
    */
-  function currentUser(teamRolesParam, leadRolesParam) {
+  function currentUser(access) {
     const u = runtime.getCurrentUser();
+    const id = String(u.id);
     const roleId = String(u.roleId || '').toLowerCase();
-    const team = splitList(teamRolesParam);
-    const leads = splitList(leadRolesParam);
+    const has = (employees, roles) => splitList(employees).indexOf(id) >= 0 || splitList(roles).indexOf(roleId) >= 0;
     let level = 'tester';
-    if (team.indexOf(roleId) >= 0) level = 'team';
-    else if (leads.indexOf(roleId) >= 0) level = 'lead';
+    if (has(access.teamEmployees, access.teamRoles)) level = 'team';
+    else if (has(access.leadEmployees, access.leadRoles)) level = 'lead';
     return { id: Number(u.id), name: u.name, email: u.email, roleId, level };
   }
 

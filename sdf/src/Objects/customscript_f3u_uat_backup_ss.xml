@@ -15,13 +15,11 @@
       <defaultvalue></defaultvalue>
       <description></description>
       <displaytype>NORMAL</displaytype>
-      <encryptatrest>F</encryptatrest>
       <fieldtype>INTEGER</fieldtype>
       <help>Same folder as the API data folder parameter. Blank: "F3U UAT Portal Data".</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>Data Folder (internal ID)</label>
-      <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
@@ -33,13 +31,11 @@
       <defaultvalue></defaultvalue>
       <description></description>
       <displaytype>NORMAL</displaytype>
-      <encryptatrest>F</encryptatrest>
       <fieldtype>INTEGER</fieldtype>
       <help>Set automatically when the backup reschedules itself. Leave blank.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>Continue After Cycle</label>
-      <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>

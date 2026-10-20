@@ -1,5 +1,5 @@
 <customrecordtype scriptid="customrecord_f3u_uat_cycle">
-  <accesstype>USEPERMISSIONLIST</accesstype>
+  <accesstype>NONENEEDED</accesstype>
   <allowattachments>F</allowattachments>
   <allowinlinedeleting>F</allowinlinedeleting>
   <allowinlinedetaching>F</allowinlinedetaching>
@@ -10,10 +10,7 @@
   <allowquicksearch>F</allowquicksearch>
   <allowuiaccess>T</allowuiaccess>
   <description>One UAT round created from an imported workbook.</description>
-  <enabledle>F</enabledle>
   <enablekeywords>F</enablekeywords>
-  <enablemailmerge>F</enablemailmerge>
-  <enablenametranslation>F</enablenametranslation>
   <enablenumbering>F</enablenumbering>
   <enableoptimisticlocking>T</enableoptimisticlocking>
   <enablesystemnotes>T</enablesystemnotes>
@@ -193,11 +190,11 @@
       <checkspelling>F</checkspelling>
       <defaultchecked>F</defaultchecked>
       <description></description>
-      <displaytype>INLINE</displaytype>
+      <displaytype>NORMAL</displaytype>
       <encryptatrest>F</encryptatrest>
       <fieldtype>CLOBTEXT</fieldtype>
       <globalsearch>F</globalsearch>
-      <help></help>
+      <help>Set by the UAT portal. Do not edit.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
@@ -254,10 +251,4 @@
       <storevalue>T</storevalue>
     </customrecordcustomfield>
   </customrecordcustomfields>
-  <permissions>
-    <permission>
-      <permittedlevel>VIEW</permittedlevel>
-      <permittedrole>[scriptid=customrole_f3u_uat_tester]</permittedrole>
-    </permission>
-  </permissions>
 </customrecordtype>

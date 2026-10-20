@@ -1,6 +1,6 @@
 # Requirements — NetSuite UAT Portal
 
-Version 0.3 · decisions D1–D5, D7–D10 recorded · 2026-10-19
+Version 0.4 · decisions D1–D5, D7–D11 recorded · 2026-10-20
 
 ## 1. Problem
 
@@ -16,16 +16,19 @@ same layout with current statuses, at any time.
 
 Must be reusable across NetSuite projects without code changes.
 
-## 3. Users and roles
+## 3. Users and access levels
 
-| Role | Can |
+| Access level | Can |
 |---|---|
-| **UAT Tester** (client business user) | View assigned/all cases in a cycle, set status, enter actual result, comment, attach evidence, export |
+| **Tester** (client business user) | View assigned/all cases in a cycle, set status, enter actual result, comment, attach evidence, export |
 | **UAT Lead** (client) | Everything a tester can, plus view the dashboard and sign off a module or cycle |
 | **Implementation team** (QA / consultant) | Everything, plus import workbooks, manage cycles and their screenshot/email switches |
 
-All users sign in with their NetSuite login. Access is controlled by a NetSuite role shipped with the
-project (`customrole_f3u_uat_tester`) plus permission on the custom records.
+Users are employees who sign in with their own NetSuite login and their existing role; the project
+ships **no role** (decided D11). The custom records need no special permission, so any role can use
+the portal. The implementation team and UAT leads are chosen by employee on the RESTlet deployment
+(`custscript_f3u_uat_team_employees`, `custscript_f3u_uat_lead_employees`), or optionally by role
+script ID; everyone else is a tester. The RESTlet enforces these levels.
 
 ## 4. Functional requirements
 
@@ -129,3 +132,4 @@ Token-Based Authentication (for SDF deployment).
 | D8 | Sample UAT workbook | Build a dummy workbook in `sample-data/` | Decided 2026-10-19 |
 | D9 | Statuses beyond the first six | **Add Retest** (a fix is ready to test again). Other workbook words map to the seven statuses per cycle; Required Discussion maps to Blocked | Decided 2026-10-19 |
 | D10 | Case title when a layout has both Scenario and Step Name | **Step Name** is the case title; Scenario is kept as an extra column | Decided 2026-10-19 |
+| D11 | Custom role for testers | **None.** Employees use their existing roles; records need no permission; team and leads are picked by employee | Decided 2026-10-20 |

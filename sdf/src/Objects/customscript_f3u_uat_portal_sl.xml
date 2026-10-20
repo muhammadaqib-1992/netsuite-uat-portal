@@ -16,13 +16,11 @@
       <defaultvalue>SuiteScripts/f3u_uat_portal/app/index.html</defaultvalue>
       <description></description>
       <displaytype>NORMAL</displaytype>
-      <encryptatrest>F</encryptatrest>
       <fieldtype>TEXT</fieldtype>
       <help>File Cabinet path of the built React app.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>App index.html Path</label>
-      <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
@@ -30,7 +28,6 @@
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_f3u_uat_portal_sl">
       <allemployees>F</allemployees>
-      <allpartners>F</allpartners>
       <allroles>T</allroles>
       <audslctrole></audslctrole>
       <eventtype></eventtype>

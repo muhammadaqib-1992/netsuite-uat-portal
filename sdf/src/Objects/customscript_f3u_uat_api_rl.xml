@@ -16,13 +16,11 @@
       <defaultvalue></defaultvalue>
       <description></description>
       <displaytype>NORMAL</displaytype>
-      <encryptatrest>F</encryptatrest>
       <fieldtype>CHECKBOX</fieldtype>
       <help>Copied to each new UAT cycle. Each cycle can override it.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>Screenshots On By Default</label>
-      <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
@@ -34,13 +32,11 @@
       <defaultvalue></defaultvalue>
       <description></description>
       <displaytype>NORMAL</displaytype>
-      <encryptatrest>F</encryptatrest>
       <fieldtype>CHECKBOX</fieldtype>
       <help>Copied to each new UAT cycle. Each cycle can override it.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>Email Alerts On By Default</label>
-      <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
@@ -52,13 +48,11 @@
       <defaultvalue>administrator</defaultvalue>
       <description></description>
       <displaytype>NORMAL</displaytype>
-      <encryptatrest>F</encryptatrest>
       <fieldtype>TEXT</fieldtype>
-      <help>Comma-separated role script IDs that can import workbooks and manage cycles.</help>
+      <help>Optional: comma-separated role script IDs whose users count as implementation team. Use the employee list above for named people.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>Implementation Team Roles</label>
-      <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
@@ -70,14 +64,46 @@
       <defaultvalue></defaultvalue>
       <description></description>
       <displaytype>NORMAL</displaytype>
-      <encryptatrest>F</encryptatrest>
       <fieldtype>TEXT</fieldtype>
-      <help>Comma-separated role script IDs that see the dashboard.</help>
+      <help>Optional: comma-separated role script IDs whose users count as UAT leads.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>UAT Lead Roles</label>
-      <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+    <scriptcustomfield scriptid="custscript_f3u_uat_team_employees">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultvalue></defaultvalue>
+      <description></description>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>MULTISELECT</fieldtype>
+      <help>Employees who can import workbooks and manage cycles, whatever role they sign in with.</help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>Implementation Team Employees</label>
+      <searchlevel>2</searchlevel>
+      <selectrecordtype>-4</selectrecordtype>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+    <scriptcustomfield scriptid="custscript_f3u_uat_lead_employees">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultvalue></defaultvalue>
+      <description></description>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>MULTISELECT</fieldtype>
+      <help>Employees who see the dashboard, whatever role they sign in with.</help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>UAT Lead Employees</label>
+      <searchlevel>2</searchlevel>
+      <selectrecordtype>-4</selectrecordtype>
       <storevalue>T</storevalue>
     </scriptcustomfield>
     <scriptcustomfield scriptid="custscript_f3u_uat_data_folder">
@@ -88,13 +114,11 @@
       <defaultvalue></defaultvalue>
       <description></description>
       <displaytype>NORMAL</displaytype>
-      <encryptatrest>F</encryptatrest>
       <fieldtype>INTEGER</fieldtype>
       <help>File Cabinet folder for evidence, workbooks and backups. Blank: a top-level "F3U UAT Portal Data" folder is created.</help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <label>Data Folder (internal ID)</label>
-      <rolerestrict>F</rolerestrict>
       <searchlevel>2</searchlevel>
       <storevalue>T</storevalue>
     </scriptcustomfield>
@@ -102,7 +126,6 @@
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_f3u_uat_api_rl">
       <allemployees>F</allemployees>
-      <allpartners>F</allpartners>
       <allroles>T</allroles>
       <audslctrole></audslctrole>
       <isdeployed>T</isdeployed>
